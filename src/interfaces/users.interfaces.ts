@@ -53,3 +53,10 @@ export interface IOpenModalUserProps {
   text: string;
   balance: number | undefined;
 }
+
+export interface IChangeUsernameProps {
+  nameOpen: boolean;
+  setNameOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  user: string
+  id: string
+}

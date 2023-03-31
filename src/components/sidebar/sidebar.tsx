@@ -30,7 +30,7 @@ import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
-import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -156,7 +156,7 @@ export const MiniDrawer: React.FC = () => {
   const [open, setOpen] = useState(myOpen);
   const href: string = window.location.href
     .toString()
-    .split("https://woodline-kitchen-v2.vercel.app")[1];
+    .split("https://woodline-kitchen-v3.vercel.app")[1];
 
   const handleDrawerOpen = () => {
     setOpen(true);

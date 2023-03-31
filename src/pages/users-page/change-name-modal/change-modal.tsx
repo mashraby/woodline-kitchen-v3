@@ -1,17 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { TextField, Typography, Button, Modal, Box } from "@mui/material";
-import { IOpenModalUserProps } from "../../../interfaces/users.interfaces";
-import { getRoles, updateUserRole } from "../../../services/api";
-import { IRole } from "../../../interfaces/roles.interfaces";
+import { IChangeUsernameProps } from "../../../interfaces/users.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-
 import { toast } from "react-toastify";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { AxiosResponse } from "axios";
+import { updateUsername } from "../../../services/api";
+import { AxiosError, AxiosResponse } from "axios";
 
 const style = {
   position: "absolute" as "absolute",
@@ -25,69 +19,58 @@ const style = {
   p: 4,
 };
 
-export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
-  const { setOpenUser, openUser, text, userId, userRole } = props;
-  const handleClose = () => setOpenUser(false);
-  const [empty, setEmpty] = useState<boolean>(false);
-  const [changeUserName, setChangeUserName] = useState<string>(text);
+export const ChangeUserNameModal: React.FC<IChangeUsernameProps> = (props) => {
+  const { nameOpen, setNameOpen, user, id } = props;
+  const handleClose = () => setNameOpen(false);
   const { reload, setReload } = useContext(ReloadContext);
-  const [newRole, setNewRole] = useState<string>("");
-  const [roles, setRoles] = useState<IRole[]>([]);
+  const [newUserName, setNewUserName] = useState<string>("");
 
-  useEffect((): void => {
-    getRoles().then((data) => {
-      setRoles(data);
-    });
-  }, [reload]);
-
-  const handleChange = (event: SelectChangeEvent): void => {
-    setNewRole(event.target.value as string);
-  };
-
-  const handleChangeUser = (): void => {
-    if (newRole == "") {
-      toast.warning("Role ni hali o'zgartirmadingiz");
-    } else {
-      updateUserRole(userId, newRole)
+  const handleChangeUserName = () => {
+    if (newUserName !== "") {
+      updateUsername(id, newUserName)
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
-            toast.success("Role muvaffaqiyatli o'zgartirildi");
+            toast.success("Username muvaffaqiyatli ozgartirildi");
+          }
+        })
+        .catch((err: AxiosError) => {
+          if (err) {
+            toast.error("Username ozgarmadi qayta urinib koring");
           }
         })
         .finally(() => {
           setReload(!reload);
-          setOpenUser(false);
-          setNewRole("");
-        })
-        .catch((err) => {
-          if (err) {
-            toast.error("Role ozgarmadi qayta urinib koring");
-          }
+          setNewUserName("");
         });
+    } else {
+      toast.warning("Usernameni hali o'zgartirmadingiz!");
     }
   };
 
   return (
     <div>
       <Modal
-        open={openUser}
+        open={nameOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography
-            sx={{ mb: 1.5 }}
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-          >
-            {"Fullname: " + text}
+          <Typography sx={{ mb: 1.5 }} id="modal-modal-title" variant="h4">
+            Change User Name
           </Typography>
 
-          <TextField  />
+          <TextField
+            onChange={(evt) => setNewUserName(evt.target.value)}
+            sx={{ my: 3 }}
+            fullWidth
+            type="text"
+            variant="outlined"
+            label="Enter a new name"
+            defaultValue={user}
+          />
           <Button
-            onClick={handleChangeUser}
+            onClick={handleChangeUserName}
             sx={{ width: 1 }}
             variant="contained"
             endIcon={<ChangeCircleIcon />}

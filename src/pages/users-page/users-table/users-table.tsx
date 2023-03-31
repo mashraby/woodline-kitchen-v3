@@ -27,6 +27,7 @@ import accounting from "accounting";
 import { updateUserStatus } from "../../../services/api";
 import { ReloadContext } from "../../../context/reload.context";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { ChangeUserNameModal } from "../change-name-modal/change-modal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -104,10 +105,13 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const users: IPerson[] = props.users as any;
   const [open, setOpen] = useState<boolean>(false);
   const [openUser, setOpenUser] = useState<boolean>(false);
+  const [nameOpen, setNameOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [userRole, setUserRole] = useState<string>("");
+  const [iUser, setIUser] = useState<string>("");
+  const [nameUserId, setNameUserId] = useState<string>("");
 
   const { reload, setReload } = useContext(ReloadContext);
 
@@ -123,39 +127,43 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
       });
     });
 
-  const handleRowClick = (user: IPerson): void => {
+  const handleRowClick = (): void => {
     setOpen(true);
+  };
+
+  const handleChangeUser = (): void => {
+    setOpenUser(true);
+  };
+
+  const myChangeFn = (user: IPerson) => {
+    setReload(!reload);
+    updateUserStatus(user._id, !user.is_verified).then((res) => {
+      // console.log(res);
+    });
+  };
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>, user: IPerson) => {
+    setAnchorEl(event.currentTarget);
+    setNameUserId(user._id);
+    setIUser(user.fullname);
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
-  };
-
-  const handleChangeUser = (user: IPerson): void => {
-    setOpenUser(true);
     setUserRole(user.role._id);
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
   };
 
-  const myChangeFn = (user: IPerson) => {
-    setReload(!reload);
-    updateUserStatus(user._id, !user.is_verified).then((res) => {
-      console.log(res);
-    });
-  };
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleOptions = (user: IPerson) => {};
+  const handleChangeUserName = () => {
+    setNameOpen(true);
+  };
 
   return (
     <>
@@ -174,6 +182,12 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
         text={text}
         userId={userId}
         balance={balance}
+      />
+      <ChangeUserNameModal
+        nameOpen={nameOpen}
+        setNameOpen={setNameOpen}
+        user={iUser}
+        id={nameUserId}
       />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -218,7 +232,6 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                   />
                 </StyledTableCell>
 
-               
                 <StyledTableCell>
                   <div>
                     <IconButton
@@ -226,14 +239,13 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                       aria-label="account of current user"
                       aria-controls="menu-appbar"
                       aria-haspopup="true"
-                      onClick={handleMenu}
+                      onClick={(evt) => handleMenu(evt, user)}
                       color="inherit"
                     >
                       <MoreVertIcon />
                     </IconButton>
                     <Menu
-                      // onChange={() => handleOptions(user)}
-                      id="menu-appbar"
+                      id={user._id}
                       anchorEl={anchorEl}
                       anchorOrigin={{
                         vertical: "top",
@@ -247,13 +259,15 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                       open={Boolean(anchorEl)}
                       onClose={handleClose}
                     >
-                      <MenuItem onClick={() => handleRowClick(user)}>
+                      <MenuItem onClick={handleRowClick}>
                         Добавить баланс
                       </MenuItem>
-                      <MenuItem onClick={() => handleChangeUser(user)}>
+                      <MenuItem onClick={handleChangeUser}>
                         Изменить Роли
                       </MenuItem>
-                      <MenuItem onClick={handleClose}>Изменить Имя</MenuItem>
+                      <MenuItem onClick={handleChangeUserName}>
+                        Изменить Имя
+                      </MenuItem>
                     </Menu>
                   </div>
                 </StyledTableCell>
