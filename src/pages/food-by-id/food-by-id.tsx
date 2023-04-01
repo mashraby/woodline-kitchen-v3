@@ -23,6 +23,7 @@ import { ChangeFoodModal } from "./change-price-modal/change-price-modal";
 import { ReloadContext } from "../../context/reload.context";
 import { AddNewProductModal } from "./add-new-product/newProduct";
 import { AxiosResponse } from "axios";
+import { ChangeAmountModal } from "./change-amount-modal/amount-modal";
 
 const style = {
   width: "100%",
@@ -48,10 +49,12 @@ export const FoodById: React.FC = () => {
 
   const [changeOpen, setChangeOpen] = useState<boolean>(false);
   const [newProdOpen, setNewProdOpen] = useState<boolean>(false);
+  const [amountOpen, setAmountOpen] = useState<boolean>(false);
   const [oldCost, setOldCost] = useState<number>();
+  const [oldAmount, setOldAmount] = useState<number>();
+  const [prodId, setProdId] = useState<string>("");
   const [id, setId] = useState<string>("");
   const { reload, setReload } = useContext(ReloadContext);
-  const [editable, setEditable] = useState<boolean>(false);
   const editableRef = useRef();
 
   const handleChangeClick = (food: IFoodById): void => {
@@ -67,10 +70,10 @@ export const FoodById: React.FC = () => {
     });
   }, [reload]);
 
-  const [val, setVal] = useState<string | null>();
   const EditProduct = (pId: string, amnt: number) => {
-    setEditable(!editable);
-    // console.log(val);
+    setAmountOpen(true);
+    setProdId(pId);
+    setOldAmount(amnt);
   };
 
   const handleDeleteProduct = (prod: string, amnt: number) => {
@@ -95,6 +98,14 @@ export const FoodById: React.FC = () => {
         newProdOpen={newProdOpen}
         setNewProdOpen={setNewProdOpen}
         foodId={foodId}
+      />
+
+      <ChangeAmountModal
+        changeFoodId={foodId}
+        prodId={prodId}
+        amount={oldAmount}
+        amountOpen={amountOpen}
+        setAmountOpen={setAmountOpen}
       />
 
       <Box sx={{ display: "flex" }}>
@@ -207,18 +218,12 @@ export const FoodById: React.FC = () => {
                           <ListItemText primary={prod.product.name} />
                           <ListItemText
                             ref={editableRef}
-                            contentEditable={editable}
-                            sx={
-                              editable
-                                ? { border: "1px solid black" }
-                                : { border: "none" }
-                            }
                             primary={prod.amount}
                           />
                           <Button
                             onClick={() => EditProduct(prod._id, prod.amount)}
                           >
-                            {editable ? <CheckIcon /> : <EditIcon />}
+                            <EditIcon />
                           </Button>
                           <Button
                             onClick={() =>

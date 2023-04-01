@@ -202,18 +202,6 @@ export const postProduct = (
   });
 };
 
-export const putFoodsProduct = (
-  food: string,
-  product: string,
-  amount: number
-) => {
-  return instance.put("/food/product", {
-    food,
-    product,
-    amount,
-  });
-};
-
 export const addProductById = (
   food: string,
   product: string,
@@ -237,6 +225,18 @@ export const deleteProductById = (
       product: product,
       amount: amount,
     },
+  });
+};
+
+export const putProductAmount = (
+  food: string,
+  product: string,
+  amount: number
+): Promise<AxiosResponse> => {
+  return instance.put("/food/product", {
+    food,
+    product,
+    amount,
   });
 };
 

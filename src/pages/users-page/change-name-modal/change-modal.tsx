@@ -41,6 +41,7 @@ export const ChangeUserNameModal: React.FC<IChangeUsernameProps> = (props) => {
         .finally(() => {
           setReload(!reload);
           setNewUserName("");
+          setNameOpen(false);
         });
     } else {
       toast.warning("Usernameni hali o'zgartirmadingiz!");

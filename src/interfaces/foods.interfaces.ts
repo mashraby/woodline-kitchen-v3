@@ -20,7 +20,7 @@ interface Product {
   cost: number;
   createdAt: string;
   updatedAt: string;
-  __v: number
+  __v: number;
 }
 
 interface IFoodByIdProduct {
@@ -37,7 +37,7 @@ export interface IFoodById {
   products: IFoodByIdProduct[];
   createdAt: string;
   updatedAt: string;
-  __v: number
+  __v: number;
 }
 
 export interface IFoodProps {
@@ -56,9 +56,16 @@ export interface IChangeFoodProps {
   foodId: string;
 }
 
-
 export interface IAddNewProductProps {
-  newProdOpen: boolean
-  setNewProdOpen: React.Dispatch<React.SetStateAction<boolean>>
-  foodId: string | undefined
+  newProdOpen: boolean;
+  setNewProdOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  foodId: string | undefined;
+}
+
+export interface IChangeAmountProps {
+  amountOpen: boolean;
+  setAmountOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  prodId: string;
+  amount: number | undefined;
+  changeFoodId: string | undefined;
 }
