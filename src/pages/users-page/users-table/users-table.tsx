@@ -193,14 +193,14 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Full Name</StyledTableCell>
-              <StyledTableCell>Telegram ID</StyledTableCell>
-              <StyledTableCell>Phone Number</StyledTableCell>
-              <StyledTableCell>Balance</StyledTableCell>
-              <StyledTableCell>Role</StyledTableCell>
-              <StyledTableCell>Change Status</StyledTableCell>
-              <StyledTableCell>Options</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Полное имя</StyledTableCell>
+              <StyledTableCell>ИД телеграммы</StyledTableCell>
+              <StyledTableCell>Номер телефона</StyledTableCell>
+              <StyledTableCell>Баланс</StyledTableCell>
+              <StyledTableCell>Роль</StyledTableCell>
+              <StyledTableCell>Изменить статус</StyledTableCell>
+              <StyledTableCell>Параметры</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

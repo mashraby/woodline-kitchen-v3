@@ -110,12 +110,12 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Food Name</StyledTableCell>
-              <StyledTableCell>Food Cost</StyledTableCell>
-              <StyledTableCell>Total Cost</StyledTableCell>
-              <StyledTableCell>Amount</StyledTableCell>
-              <StyledTableCell>Add</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Продукт</StyledTableCell>
+              <StyledTableCell>Цена</StyledTableCell>
+              <StyledTableCell>Сумма</StyledTableCell>
+              <StyledTableCell>Кол-во</StyledTableCell>
+              <StyledTableCell>Изменить</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -143,7 +143,7 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
                       }}
                       variant="outlined"
                     >
-                      Add or remove take
+                      ИЗМЕНИТЬ
                     </Button>
                   </StyledTableCell>
                 </StyledTableRow>

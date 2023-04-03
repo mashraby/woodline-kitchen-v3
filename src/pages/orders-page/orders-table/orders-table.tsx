@@ -54,11 +54,11 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>User</StyledTableCell>
-              <StyledTableCell>Order</StyledTableCell>
-              <StyledTableCell>Total Cost</StyledTableCell>
-              <StyledTableCell>Status</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Пользователь</StyledTableCell>
+              <StyledTableCell>Заказ</StyledTableCell>
+              <StyledTableCell>Сумма</StyledTableCell>
+              <StyledTableCell>Положение дел</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

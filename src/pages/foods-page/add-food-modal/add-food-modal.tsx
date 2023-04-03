@@ -155,6 +155,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
             <Box sx={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
               <Box
                 sx={{
+                  mt: 3,
                   width: "300px",
                   display: "flex",
                   flexDirection: "column",
@@ -168,7 +169,6 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                     setNameEmty(false);
                     setName(e.target.value);
                   }}
-                  sx={{ mt: 2 }}
                   id={nameEmpty ? "outlined-error" : "outlined-basic"}
                   label={
                     nameEmpty ? "Введите значение" : "Напишите название еды"
@@ -235,62 +235,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                   {accounting.formatNumber(sumMoney, 0, " ") + " so'm"}
                 </Typography>
               </Box>
-              <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "15px" }}
-              >
-                {inputs &&
-                  inputs.map((e, i) => (
-                    <Box
-                      key={i + 13}
-                      sx={{
-                        display: "flex",
-                        gap: "10px",
-                      }}
-                    >
-                      <Autocomplete
-                        onKeyDown={(evt) => handleFocus(evt, i)}
-                        onChange={(evt, newVal) => {
-                          if (
-                            newVal?.cost !== undefined &&
-                            newVal.value !== undefined
-                          ) {
-                            e.product = newVal?.value;
-                            e.cost = newVal?.cost;
-                          }
-                        }}
-                        disablePortal
-                        id="combo-box-demo"
-                        options={products?.map((prod) => {
-                          return {
-                            label: prod.name,
-                            value: prod._id,
-                            cost: prod.cost,
-                          };
-                        })}
-                        sx={{ width: "250px" }}
-                        renderInput={(params) => (
-                          <TextField
-                            onChange={(evt) => {
-                              console.log(evt.target.value);
-                            }}
-                            {...params}
-                            label={`product ${i + 1}`}
-                          />
-                        )}
-                      />
-                      <TextField
-                        onKeyDown={(evt) => handleFocus(evt, i)}
-                        onChange={(evt) => {
-                          e.amount = +evt.target.value;
-                          setCheck(!check);
-                        }}
-                        sx={{ width: "150px" }}
-                        type="number"
-                        variant="outlined"
-                        label={`amount ${i + 1}`}
-                      />
-                    </Box>
-                  ))}
+              <Box>
                 <Button
                   onClick={() => {
                     setInputs([
@@ -308,6 +253,70 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                 >
                   добавить больше продуктов +
                 </Button>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "15px",
+                    height: "300px",
+                    overflow: "auto",
+                    mb: 3
+                  }}
+                >
+                  {inputs &&
+                    inputs.map((e, i) => (
+                      <Box
+                        key={i + 13}
+                        sx={{
+                          display: "flex",
+                          gap: "10px",
+                        }}
+                      >
+                        <Autocomplete
+                          onKeyDown={(evt) => handleFocus(evt, i)}
+                          onChange={(evt, newVal) => {
+                            if (
+                              newVal?.cost !== undefined &&
+                              newVal.value !== undefined
+                            ) {
+                              e.product = newVal?.value;
+                              e.cost = newVal?.cost;
+                            }
+                          }}
+                          disablePortal
+                          id="combo-box-demo"
+                          options={products?.map((prod) => {
+                            return {
+                              label: prod.name,
+                              value: prod._id,
+                              cost: prod.cost,
+                            };
+                          })}
+                          sx={{ width: "250px" }}
+                          renderInput={(params) => (
+                            <TextField
+                              onChange={(evt) => {
+                                console.log(evt.target.value);
+                              }}
+                              {...params}
+                              label={`product ${i + 1}`}
+                            />
+                          )}
+                        />
+                        <TextField
+                          onKeyDown={(evt) => handleFocus(evt, i)}
+                          onChange={(evt) => {
+                            e.amount = +evt.target.value;
+                            setCheck(!check);
+                          }}
+                          sx={{ width: "150px" }}
+                          type="number"
+                          variant="outlined"
+                          label={`amount ${i + 1}`}
+                        />
+                      </Box>
+                    ))}
+                </Box>
               </Box>
             </Box>
             <Button

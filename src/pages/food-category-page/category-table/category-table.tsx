@@ -40,8 +40,8 @@ export const FoodCategoryTable: React.FC<IFoodCategoryProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Category Name</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Категория</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

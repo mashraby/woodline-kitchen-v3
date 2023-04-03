@@ -48,9 +48,9 @@ export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Time</StyledTableCell>
-              <StyledTableCell>Edit</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Время</StyledTableCell>
+              <StyledTableCell>Изменить</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,7 +65,7 @@ export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
                     setOldTime(deed.time)
                     setId(deed._id)
                     setOpen(!open)
-                  }} variant="outlined">Редактировать</Button>
+                  }} variant="outlined">Изменить</Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

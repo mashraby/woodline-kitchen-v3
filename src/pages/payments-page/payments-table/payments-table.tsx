@@ -43,11 +43,11 @@ export const PaymentsTable: React.FC<IPaymentsProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>User</StyledTableCell>
-              <StyledTableCell>Balance</StyledTableCell>
-              <StyledTableCell>Amount</StyledTableCell>
-              <StyledTableCell>Date</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Пользователь</StyledTableCell>
+              <StyledTableCell>Баланс</StyledTableCell>
+              <StyledTableCell>Кол-во</StyledTableCell>
+              <StyledTableCell>Дата</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

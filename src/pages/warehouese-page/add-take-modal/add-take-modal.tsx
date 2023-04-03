@@ -96,7 +96,7 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
               variant="h4"
               component="div"
             >
-              Add Take
+              Инвентаризация
             </Typography>
 
             <TextField
@@ -104,13 +104,13 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
               sx={{ my: 3 }}
               type="number"
               variant="outlined"
-              label="amount"
+              label="кол-во"
               fullWidth
             />
 
             <FormControl sx={{ mb: 3 }} fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Add or remove
+                Добавить или минус
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -119,8 +119,8 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
                 label="Add or remove"
                 onChange={handleChange}
               >
-                <MenuItem value={"true"}>Add</MenuItem>
-                <MenuItem value={"false"}>Remove</MenuItem>
+                <MenuItem value={"true"}>Добавить</MenuItem>
+                <MenuItem value={"false"}>Минус</MenuItem>
               </Select>
             </FormControl>
 
@@ -130,7 +130,9 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
               variant="contained"
               endIcon={<SendIcon />}
             >
-              Add Take
+              {type === "true"
+                ? "Добавить Инвентаризация"
+                : "Минус Инвентаризация"}
             </Button>
           </Box>
         </Fade>

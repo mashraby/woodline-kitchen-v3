@@ -6,7 +6,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { IProduct, IProductsProps } from "../../../interfaces/products.interface";
+import {
+  IProduct,
+  IProductsProps,
+} from "../../../interfaces/products.interface";
 import accounting from "accounting";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,9 +41,9 @@ export const ProductsTable: React.FC<IProductsProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Cost</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Продукт</StyledTableCell>
+              <StyledTableCell>Цена</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -50,7 +53,9 @@ export const ProductsTable: React.FC<IProductsProps> = (props) => {
                   {index + 1}
                 </StyledTableCell>
                 <StyledTableCell>{product.name}</StyledTableCell>
-                <StyledTableCell>{accounting.formatNumber(product.cost, 0, " ") + " so'm"}</StyledTableCell>
+                <StyledTableCell>
+                  {accounting.formatNumber(product.cost, 0, " ") + " so'm"}
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

@@ -51,11 +51,11 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Food Name</StyledTableCell>
-              <StyledTableCell>Food Cost</StyledTableCell>
-              <StyledTableCell>Food Category</StyledTableCell>
-              <StyledTableCell>Edit</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Еда</StyledTableCell>
+              <StyledTableCell>Цена</StyledTableCell>
+              <StyledTableCell>Категория</StyledTableCell>
+              <StyledTableCell>Изменить</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

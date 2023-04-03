@@ -37,8 +37,8 @@ export const RolesTable: React.FC<IRolesProps> = (props) => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Title</StyledTableCell>
+              <StyledTableCell>ИД</StyledTableCell>
+              <StyledTableCell>Имя роли</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
