@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ import {
 import { OrdersTable } from "./orders-table/orders-table";
 import { getPaginationOrders } from "../../services/api";
 import { IOrder } from "../../interfaces/orders.interfaces";
+import { ReloadContext } from "../../context/reload.context";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -28,13 +29,14 @@ export const OrdersPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPage, setTotalPage] = useState<number>();
+  const {reload} = useContext(ReloadContext)
 
   useEffect(() => {
     getPaginationOrders(page, pageSize).then((data) => {
       setOrders(data.orders);
       setTotalPage(data.totalPages);
     });
-  }, []);
+  }, [page, pageSize, reload]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,

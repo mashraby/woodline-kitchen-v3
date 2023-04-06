@@ -103,6 +103,13 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
           setCost(0);
           setSelectedCtg("");
           setReload(!reload);
+          setInputs([
+            {
+              product: "",
+              amount: 0,
+              cost: 0,
+            },
+          ]);
         })
         .catch((err: AxiosError) => {
           if (err) {
@@ -260,7 +267,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                     gap: "15px",
                     height: "300px",
                     overflow: "auto",
-                    mb: 3
+                    mb: 3,
                   }}
                 >
                   {inputs &&
