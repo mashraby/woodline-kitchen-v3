@@ -28,6 +28,9 @@ import { updateUserStatus } from "../../../services/api";
 import { ReloadContext } from "../../../context/reload.context";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { ChangeUserNameModal } from "../change-name-modal/change-modal";
+import { toast } from "react-toastify";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Box } from "@mui/system";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -100,6 +103,11 @@ const IOSSwitch = styled((props: SwitchProps) => (
   },
 }));
 
+interface ILoadData {
+  isLoading: boolean;
+  id: string;
+}
+
 export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const rows: IRow[] = [];
   const users: IPerson[] = props.users as any;
@@ -112,6 +120,10 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const [userRole, setUserRole] = useState<string>("");
   const [iUser, setIUser] = useState<string>("");
   const [nameUserId, setNameUserId] = useState<string>("");
+  const [loadData, setLoadData] = useState<ILoadData>({
+    isLoading: false,
+    id: "",
+  });
 
   const { reload, setReload } = useContext(ReloadContext);
 
@@ -137,8 +149,18 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
 
   const myChangeFn = (user: IPerson) => {
     setReload(!reload);
-    updateUserStatus(user._id, !user.is_verified).then((res) => {
-      // console.log(res);
+    setLoadData({
+      isLoading: true,
+      id: user._id,
+    });
+    updateUserStatus(user._id, user.is_verified ? false : true).then((res) => {
+      if (res.status === 200) {
+        setLoadData({
+          isLoading: false,
+          id: "",
+        });
+        // toast.success("Status muvaffaqiyatli o'zgartirildi");
+      }
     });
   };
 
@@ -219,17 +241,28 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                   {user.role === null ? "No role" : user.role.title}
                 </StyledTableCell>
                 <StyledTableCell>
-                  <FormControlLabel
-                    onChange={() => myChangeFn(user)}
-                    control={
-                      <IOSSwitch
-                        checked={user.is_verified}
-                        sx={{ m: 1 }}
-                        defaultChecked={user.is_verified ? true : false}
-                      />
-                    }
-                    label={user.is_verified ? "verify" : "not verify"}
-                  />
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <FormControlLabel
+                      onChange={() => myChangeFn(user)}
+                      control={
+                        <IOSSwitch
+                          checked={user.is_verified}
+                          sx={{ m: 1 }}
+                          defaultChecked={user.is_verified ? true : false}
+                        />
+                      }
+                      label={
+                        loadData.isLoading && loadData.id === user._id
+                          ? "loading..."
+                          : user.is_verified
+                          ? "verify"
+                          : "not verify"
+                      }
+                    />
+                    {loadData.isLoading && loadData.id === user._id ? (
+                      <CircularProgress color="success" />
+                    ) : null}
+                  </Box>
                 </StyledTableCell>
 
                 <StyledTableCell>
