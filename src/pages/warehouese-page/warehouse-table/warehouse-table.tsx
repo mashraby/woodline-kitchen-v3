@@ -123,13 +123,13 @@ export const WareHouseTable: React.FC<IWarehouseProps> = (props) => {
               return (
                 <StyledTableRow key={index}>
                   <StyledTableCell>{index + 1}</StyledTableCell>
-                  <StyledTableCell>{w.product.name}</StyledTableCell>
+                  <StyledTableCell>{w.product?.name}</StyledTableCell>
                   <StyledTableCell>
-                    {accounting.formatNumber(w.product.cost, 0, " ") + " so'm"}
+                    {accounting.formatNumber(w.product?.cost, 0, " ") + " so'm"}
                   </StyledTableCell>
                   <StyledTableCell>
                     {accounting.formatNumber(
-                      w.product.cost * w.amount,
+                      w.product?.cost * w.amount,
                       0,
                       " "
                     ) + " so'm"}
