@@ -77,9 +77,9 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                     <details>
                       <summary>Order foods</summary>
                         {
-                          order.foods.map((f) => (
+                          order?.foods.map((f) => (
                             <p style={{margin: 0}}>
-                              {f.food.name + " " + f.count + " ta"}
+                              {f.food?.name ? f.food?.name : ""  + " " + f.count + " ta"}
                             </p>
                           ))
                         }
