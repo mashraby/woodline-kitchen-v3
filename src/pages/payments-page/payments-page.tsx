@@ -14,6 +14,7 @@ import {
 import { getPaginationPayments, getPayments } from "../../services/api";
 import { IPayment } from "../../interfaces/payments.interfacess";
 import { PaymentsTable } from "./payments-table/payments-table";
+import { AxiosError } from "axios";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -33,6 +34,12 @@ export const PaymentsPage: React.FC = () => {
     getPaginationPayments(page, pageSize).then((data) => {
       setPayments(data.payments);
       setTotalPage(data.totalPages);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [page, pageSize]);
 

@@ -3,8 +3,9 @@ import { Typography, TextField, Button } from "@mui/material";
 import styled from "styled-components";
 import { ILogin } from "../../../interfaces/login.interfaces";
 import { login } from "../../../services/api";
-import { useNavigate } from "react-router-dom";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+import useToken from "../../../hooks/usetoken.hook";
 
 const AuthWrapper = styled.div`
   padding: 20px;
@@ -23,28 +24,47 @@ const Title = styled.h4`
   text-align: center;
 `;
 
+interface data {
+  message: string
+}
+
 export const AuthForm: React.FC = () => {
   const [loginData, setLoginData] = useState<ILogin>({
     username: "",
     password: "",
   });
-  const navigate = useNavigate()
+  const [emptyUsername, setEmptyUsername] = useState<boolean>(false)
+  const [emptyPassword, setEmptyPassword] = useState<boolean>(false)
+
+  const [_, setToken] = useToken();
 
   const handleLogin = (): void => {
-    console.log(loginData.username, loginData.password );
+    if (loginData.password === "" && loginData.username === "") {
+      toast.warning("Username va password bo'sh bo'lmasligi kerak");
+    } else if (loginData.username === "") {
+      toast.warning("Username bo'sh bo'lmasligi kerak");
+    } else if (loginData.password === "") {
+      toast.warning("Password bo'sh bo'lmasligi kerak");
+    } else {
+      login(loginData.username, loginData.password).then(
+        (res: AxiosResponse) => {
+          if (res.data.token) {
+            const token = res.data.token as string;
+            if (typeof setToken === "function") {
+              setToken(token);
+            }
+            window.location.href = "/roles";
+          } else {
+            toast.error("Siz admin emassiz!");
+          }
+        }
+      ).catch((err:AxiosError) => {
+        const { message } = err.response?.data as data
+        if(message === "username not found") {
 
-    login(loginData.username, loginData.password).then((res: AxiosResponse) => {
-      console.log(res);
-
-      if(res.data.token) {
-        console.log(res.data.token);
-
-        localStorage.setItem("token", JSON.stringify(res.data.token))
-        navigate("/roles")
-      } else {
-        //
-      }
-    });
+        }
+      })
+    }
   };
 
   return (

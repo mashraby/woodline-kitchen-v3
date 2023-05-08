@@ -11,6 +11,9 @@ import {
   IProductsProps,
 } from "../../../interfaces/products.interface";
 import accounting from "accounting";
+import { Button } from "@mui/material";
+import { EditProductModal } from "../edit-product-modal/edit-modal";
+import { useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,9 +37,28 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const ProductsTable: React.FC<IProductsProps> = (props) => {
   const products: IProduct[] = props.products as any;
+  const [open, setOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [cost, setCost] = useState<number>(0);
+  const [prId, setPrId] = useState<string>("");
+
+  const handleClick = (p: IProduct) => {
+    setOpen(true);
+    setName(p.name);
+    setCost(p.cost);
+    setPrId(p._id);
+  };
 
   return (
     <>
+      <EditProductModal
+        open={open}
+        setOpen={setOpen}
+        name={name}
+        cost={cost}
+        id={prId}
+      />
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -44,6 +66,7 @@ export const ProductsTable: React.FC<IProductsProps> = (props) => {
               <StyledTableCell>ИД</StyledTableCell>
               <StyledTableCell>Продукт</StyledTableCell>
               <StyledTableCell>Цена</StyledTableCell>
+              <StyledTableCell>Изменить</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -55,6 +78,14 @@ export const ProductsTable: React.FC<IProductsProps> = (props) => {
                 <StyledTableCell>{product.name}</StyledTableCell>
                 <StyledTableCell>
                   {accounting.formatNumber(product.cost, 0, " ") + " so'm"}
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Button
+                    onClick={() => handleClick(product)}
+                    variant="outlined"
+                  >
+                    Изменить
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

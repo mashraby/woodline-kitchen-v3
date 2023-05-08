@@ -15,6 +15,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
+import { AxiosError } from "axios";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -35,6 +36,12 @@ export const UsersPage: React.FC = () => {
     getUsersPagination(page, pageSize).then((data) => {
       setUsers(data.users);
       setTotalPage(data.totalPages);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [reload, page, pageSize]);
 

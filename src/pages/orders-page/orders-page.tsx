@@ -15,6 +15,7 @@ import { OrdersTable } from "./orders-table/orders-table";
 import { getPaginationOrders } from "../../services/api";
 import { IOrder } from "../../interfaces/orders.interfaces";
 import { ReloadContext } from "../../context/reload.context";
+import { AxiosError } from "axios";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -35,6 +36,12 @@ export const OrdersPage: React.FC = () => {
     getPaginationOrders(page, pageSize).then((data) => {
       setOrders(data.orders);
       setTotalPage(data.totalPages);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [page, pageSize, reload]);
 

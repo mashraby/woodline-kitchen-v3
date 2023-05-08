@@ -9,6 +9,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { FoodsTable } from "./foods-table/foods-table";
 import { IFood } from "../../interfaces/foods.interfaces";
 import { AddFoodModal } from "./add-food-modal/add-food-modal";
+import { AxiosError } from "axios";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -27,6 +28,12 @@ export const FoodsPage: React.FC = () => {
   useEffect((): void => {
     getFoods().then((data) => {
       setFoods(data);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [reload]);
 

@@ -9,7 +9,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import styled from "styled-components";
 import { AddRoleModal } from "./add-role-modal/add-role-modal";
 import { ReloadContext } from "../../context/reload.context";
-  
+import { AxiosError, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
+
 const FlexWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,11 +24,18 @@ export const RolesPage: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const [roles, setRoles] = useState<IRole[]>([]);
   const { reload } = useContext(ReloadContext);
-
   useEffect(() => {
-    getRoles().then((data) => {
-      setRoles(data);
-    });
+    getRoles()
+      .then((res: AxiosResponse) => {
+        setRoles(res.data);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [reload]);
 
   return (

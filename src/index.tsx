@@ -10,6 +10,7 @@ import "@fontsource/roboto/700.css";
 import GlobalStyle from "./globals/GlobalStyle";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as ReloadProvider } from "./context/reload.context";
+import { Provider as TokenProvider } from "./context/token.context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -18,10 +19,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <ReloadProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ReloadProvider>
+    <TokenProvider>
+      <ReloadProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ReloadProvider>
+    </TokenProvider>
   </React.StrictMode>
 );

@@ -9,6 +9,7 @@ import { WareHouseTable } from "./warehouse-table/warehouse-table";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AddWarehouseModal } from "./add-modal/add-modal";
 import { ReloadContext } from "../../context/reload.context";
+import { AxiosError } from "axios";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -26,6 +27,12 @@ export const WareHousePage: React.FC = () => {
   useEffect(() => {
     getWarehouses().then((data) => {
       setWarehouses(data);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [reload]);
 

@@ -9,6 +9,7 @@ import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { ILunch } from "../../interfaces/lunchs.interfaces";
 import { getLunchs } from "../../services/api";
 import { LunchsTable } from "./lunchs-table/lunchs-table";
+import { AxiosError } from "axios";
 
 export const LunchsPage: React.FC = () => {
   const [lunchs, setLunchs] = useState<ILunch[]>([]);
@@ -16,6 +17,12 @@ export const LunchsPage: React.FC = () => {
   useEffect(() => {
     getLunchs().then((data) => {
       setLunchs(data);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, []);
 
