@@ -24,10 +24,6 @@ const Title = styled.h4`
   text-align: center;
 `;
 
-interface data {
-  message: string
-}
-
 export const AuthForm: React.FC = () => {
   const [loginData, setLoginData] = useState<ILogin>({
     username: "",
@@ -58,12 +54,7 @@ export const AuthForm: React.FC = () => {
             toast.error("Siz admin emassiz!");
           }
         }
-      ).catch((err:AxiosError) => {
-        const { message } = err.response?.data as data
-        if(message === "username not found") {
-
-        }
-      })
+      )
     }
   };
 
