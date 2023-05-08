@@ -6,6 +6,7 @@ import { ReloadContext } from "../../context/reload.context";
 import { IDeedline } from "../../interfaces/deedline.interface";
 import { getDeedlines } from "../../services/api";
 import { DeedlineTable } from "./deedline-table/deedline-table";
+import { AxiosError } from "axios";
 
 export const DeedlinePage: React.FC = () => {
   const [deedlines, setDeedlines] = useState<IDeedline[]>([]);
@@ -14,6 +15,12 @@ export const DeedlinePage: React.FC = () => {
   useEffect(() => {
     getDeedlines().then((data) => {
       setDeedlines(data);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [reload]);
 

@@ -35,8 +35,8 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
   const [roles, setRoles] = useState<IRole[]>([]);
 
   useEffect((): void => {
-    getRoles().then((data) => {
-      setRoles(data);
+    getRoles().then((res:AxiosResponse) => {
+      setRoles(res.data);
     });
   }, [reload]);
 

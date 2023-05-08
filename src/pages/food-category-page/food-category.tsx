@@ -9,6 +9,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ICategory } from "../../interfaces/categorys.interfaces";
 import { FoodCategoryTable } from "./category-table/category-table";
 import { AddCategoryModal } from "./add-category-modal/add-category-modal";
+import { AxiosError } from "axios";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -26,6 +27,12 @@ export const FoodCategoryPage: React.FC = () => {
   useEffect((): void => {
     getCategory().then((data) => {
       setCategorys(data);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [reload]);
   

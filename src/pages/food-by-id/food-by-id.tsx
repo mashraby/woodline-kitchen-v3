@@ -22,7 +22,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { ChangeFoodModal } from "./change-price-modal/change-price-modal";
 import { ReloadContext } from "../../context/reload.context";
 import { AddNewProductModal } from "./add-new-product/newProduct";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { ChangeAmountModal } from "./change-amount-modal/amount-modal";
 
 const style = {
@@ -66,7 +66,12 @@ export const FoodById: React.FC = () => {
   useEffect(() => {
     foodById(foodId as string).then((data: IFoodById) => {
       setFood(data);
-      console.log(data);
+    }).catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
+        window.localStorage.removeItem("token");
+        window.location.reload();
+        window.location.href = "/login";
+      }
     });
   }, [reload]);
 
@@ -215,7 +220,7 @@ export const FoodById: React.FC = () => {
                             gap: "20px",
                           }}
                         >
-                          <ListItemText primary={prod.product.name} />
+                          <ListItemText primary={prod.product?.name} />
                           <ListItemText
                             ref={editableRef}
                             primary={prod.amount}

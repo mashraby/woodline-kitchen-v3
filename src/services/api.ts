@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { instance } from "../config/axios.config";
+import { authInstance, instance } from "../config/axios.config";
 import { ICategory } from "../interfaces/categorys.interfaces";
 import { IDeedline } from "../interfaces/deedline.interface";
 import { IFood, IFoodById } from "../interfaces/foods.interfaces";
@@ -20,7 +20,7 @@ export const login = (
   username: string,
   password: string
 ): Promise<AxiosResponse> => {
-  return instance.post("/", {
+  return authInstance.post("/login", {
     username,
     password,
   });
@@ -82,8 +82,8 @@ export const updateUsername = (
 };
 
 // Roles Service //
-export const getRoles = (): Promise<Array<IRole>> => {
-  return instance.get("/role").then((res) => res.data);
+export const getRoles = (): Promise<AxiosResponse> => {
+  return instance.get("/role").then((res: AxiosResponse) => res);
 };
 
 export const postRole = (title: string): Promise<AxiosResponse> => {
@@ -200,6 +200,16 @@ export const postProduct = (
     name,
     cost,
   });
+};
+
+interface editProductData {
+  id: string
+  name?: string;
+  cost?: number;
+}
+
+export const editProduct = (editData: editProductData): Promise<AxiosResponse> => {
+  return instance.put("/product", editData);
 };
 
 export const addProductById = (
