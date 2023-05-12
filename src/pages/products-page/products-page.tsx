@@ -34,6 +34,8 @@ export const ProductsPage: React.FC = () => {
     });
   }, [reload]);
 
+  
+
   return (
     <>
       <AddProductModal open={open} setOpen={setOpen} />

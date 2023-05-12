@@ -47,12 +47,12 @@ export const StatsPage: React.FC = () => (
   <Box sx={{ display: "flex" }}>
     <MiniDrawer />
     <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-      {/* <StaticTimePickerLandscape /> */}
+      <BasicDateCalendar />
       <Grid container spacing={8}>
-        <Grid item xs={5}>
-          <BasicDateCalendar />
+        <Grid item xs={6}>
+          <AreaChart />
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={6}>
           <DoughnutChart />
         </Grid>
       </Grid>
@@ -64,8 +64,6 @@ export const StatsPage: React.FC = () => (
           <Line data={data} options={options} />
         </Grid>
       </Grid>
-
-      <AreaChart />
     </Box>
   </Box>
 );
