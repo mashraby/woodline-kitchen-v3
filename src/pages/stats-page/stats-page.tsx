@@ -8,6 +8,12 @@ import Chart, {
 } from "chart.js/auto";
 import { Box } from "@mui/system";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
+import { VertBar } from "./vert-bar/vert-bar";
+import { Grid } from "@mui/material";
+import BasicDateCalendar from "./date-calendar/date-calendar";
+import StaticTimePickerLandscape from "./time/time";
+import { DoughnutChart } from "./doughnt-chart/d-chart";
+import { AreaChart } from "./area-chart/area-chart";
 
 Chart.register(LinearScale, PointElement, LineElement, Title);
 
@@ -32,11 +38,34 @@ const options = {
   },
 };
 
+interface DoughnutChartProps {
+  data: number[];
+  labels: string[];
+}
+
 export const StatsPage: React.FC = () => (
   <Box sx={{ display: "flex" }}>
     <MiniDrawer />
     <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-      <Line data={data} options={options} />
+      {/* <StaticTimePickerLandscape /> */}
+      <Grid container spacing={8}>
+        <Grid item xs={5}>
+          <BasicDateCalendar />
+        </Grid>
+        <Grid item xs={7}>
+          <DoughnutChart />
+        </Grid>
+      </Grid>
+      <Grid container spacing={8}>
+        <Grid item xs={6}>
+          <VertBar />
+        </Grid>
+        <Grid item xs={6}>
+          <Line data={data} options={options} />
+        </Grid>
+      </Grid>
+
+      <AreaChart />
     </Box>
   </Box>
 );

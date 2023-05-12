@@ -203,12 +203,14 @@ export const postProduct = (
 };
 
 interface editProductData {
-  id: string
+  id: string;
   name?: string;
   cost?: number;
 }
 
-export const editProduct = (editData: editProductData): Promise<AxiosResponse> => {
+export const editProduct = (
+  editData: editProductData
+): Promise<AxiosResponse> => {
   return instance.put("/product", editData);
 };
 
@@ -226,14 +228,12 @@ export const addProductById = (
 
 export const deleteProductById = (
   food: string,
-  product: string,
-  amount: number
+  product: string
 ): Promise<AxiosResponse> => {
   return instance.delete("/food/del", {
     data: {
       food: food,
       product: product,
-      amount: amount,
     },
   });
 };

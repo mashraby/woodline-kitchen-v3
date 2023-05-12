@@ -24,6 +24,7 @@ import { ReloadContext } from "../../context/reload.context";
 import { AddNewProductModal } from "./add-new-product/newProduct";
 import { AxiosError, AxiosResponse } from "axios";
 import { ChangeAmountModal } from "./change-amount-modal/amount-modal";
+import { toast } from "react-toastify";
 
 const style = {
   width: "100%",
@@ -81,13 +82,19 @@ export const FoodById: React.FC = () => {
     setOldAmount(amnt);
   };
 
-  const handleDeleteProduct = (prod: string, amnt: number) => {
+  const handleDeleteProduct = (prod: string) => {
     setReload(!reload);
-    deleteProductById(foodId as string, prod, amnt).then(
+    deleteProductById(foodId as string, prod).then(
       (res: AxiosResponse) => {
-        console.log(res);
+        if(res.status === 200) {
+          toast.success("Product muvaffaqiyatli o'chirildi")
+        }
       }
-    );
+    ).catch((err:AxiosError) => {
+      if(err) {
+        toast.error("product ochmadi qayta urinib koring")
+      }
+    })
   };
 
   return (
@@ -147,7 +154,7 @@ export const FoodById: React.FC = () => {
               }}
             >
               <Typography variant="h4" component="h2">
-                Название еды:{" "}
+                Название еды: {" "}
                 <span
                   style={{
                     fontStyle: "italic",
@@ -179,7 +186,7 @@ export const FoodById: React.FC = () => {
                   }}
                 >
                   {food?.category.name}
-                </span>
+                </span> 
               </Typography>
 
               <Button
@@ -226,13 +233,13 @@ export const FoodById: React.FC = () => {
                             primary={prod.amount}
                           />
                           <Button
-                            onClick={() => EditProduct(prod._id, prod.amount)}
+                            onClick={() => EditProduct(prod.product._id, prod.amount)}
                           >
                             <EditIcon />
                           </Button>
                           <Button
                             onClick={() =>
-                              handleDeleteProduct(prod._id, prod.amount)
+                              handleDeleteProduct(prod.product._id)
                             }
                           >
                             <DeleteIcon />
