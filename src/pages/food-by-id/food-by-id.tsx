@@ -97,6 +97,9 @@ export const FoodById: React.FC = () => {
     })
   };
 
+  console.log(food);
+  
+
   return (
     <>
       <ChangeFoodModal
