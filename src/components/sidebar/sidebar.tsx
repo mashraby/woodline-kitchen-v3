@@ -31,6 +31,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -217,6 +218,18 @@ export const MiniDrawer: React.FC = () => {
         <List>
           <ListItem disablePadding>
             <ListItemButton
+              className={href === "/" ? "Mui-selected" : ""}
+              component={NavLink}
+              to="/"
+            >
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Дaшборд"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
               className={href === "/roles" ? "Mui-selected" : ""}
               component={NavLink}
               to="/roles"
@@ -335,19 +348,6 @@ export const MiniDrawer: React.FC = () => {
                 <SignalCellularAltIcon />
               </ListItemIcon>
               <ListItemText primary={"Инвентаризация"} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemButton
-              className={href === "/stats" ? "Mui-selected" : ""}
-              component={NavLink}
-              to="/stats"
-            >
-              <ListItemIcon>
-                <TrendingUpIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Аналитика"} />
             </ListItemButton>
           </ListItem>
         </List>

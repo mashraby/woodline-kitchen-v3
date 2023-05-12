@@ -48,11 +48,15 @@ export const AddNewProductModal: React.FC<IAddNewProductProps> = (props) => {
     if (product !== undefined && amount !== 0) {
       addProductById(foodId as string, product as string, amount)
         .then((res: AxiosResponse) => {
+          console.log(res);
+          
           if (res.status === 200) {
             toast.success("Product qo'shildi");
           }
         })
         .catch((err) => {
+          console.log(err);
+          
           if (err) {
             toast.error("Product qo'shilmadi qayta urinib koring");
           }

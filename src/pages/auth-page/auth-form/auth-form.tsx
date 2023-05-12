@@ -24,13 +24,17 @@ const Title = styled.h4`
   text-align: center;
 `;
 
+interface ErrMessage {
+  message: string;
+}
+
 export const AuthForm: React.FC = () => {
   const [loginData, setLoginData] = useState<ILogin>({
     username: "",
     password: "",
   });
-  const [emptyUsername, setEmptyUsername] = useState<boolean>(false)
-  const [emptyPassword, setEmptyPassword] = useState<boolean>(false)
+  const [emptyUsername, setEmptyUsername] = useState<boolean>(false);
+  const [emptyPassword, setEmptyPassword] = useState<boolean>(false);
 
   const [_, setToken] = useToken();
 
@@ -42,19 +46,26 @@ export const AuthForm: React.FC = () => {
     } else if (loginData.password === "") {
       toast.warning("Password bo'sh bo'lmasligi kerak");
     } else {
-      login(loginData.username, loginData.password).then(
-        (res: AxiosResponse) => {
+      login(loginData.username, loginData.password)
+        .then((res: AxiosResponse) => {
           if (res.data.token) {
             const token = res.data.token as string;
             if (typeof setToken === "function") {
               setToken(token);
             }
-            window.location.href = "/roles";
-          } else {
-            toast.error("Siz admin emassiz!");
+            window.location.href = "/";
           }
-        }
-      )
+        })
+        .catch((err: AxiosError) => {
+          const { message } = err.response?.data as ErrMessage;
+          if (message === "username not found") {
+            toast.error("wrong username");
+            setEmptyUsername(true);
+          } else if (message === "wrong password or username") {
+            toast.error("wrong password");
+            setEmptyPassword(true);
+          }
+        });
     }
   };
 
@@ -69,9 +80,11 @@ export const AuthForm: React.FC = () => {
           e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
         ) => {
           setLoginData({ ...loginData, username: e.target.value });
+          setEmptyUsername(false);
         }}
-        id="outlined-basic"
-        label="Username"
+        id={emptyUsername ? "outlined-error" : "outlined-basic"}
+        error={emptyUsername ? true : false}
+        label={emptyUsername ? "Wrong username" : "Username"}
         variant="outlined"
       />
       <TextField
@@ -80,9 +93,11 @@ export const AuthForm: React.FC = () => {
           e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
         ) => {
           setLoginData({ ...loginData, password: e.target.value });
+          setEmptyPassword(false);
         }}
-        id="outlined-password-input"
-        label="Password"
+        id={"outlined-password-input"}
+        error={emptyPassword ? true : false}
+        label={emptyPassword ? "wrong password" : "Password"}
         type="password"
         autoComplete="current-password"
       />

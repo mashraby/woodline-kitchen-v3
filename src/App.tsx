@@ -25,11 +25,12 @@ export const App: React.FC = () => {
     <div className="App">
       <ToastContainer autoClose={5000} />
       <Routes>
-        <Route path="/" element={<Public />}>
+        <Route element={<Public />}>
           <Route path="/login" element={<AuthPage />} />
         </Route>
-        <Route path="/" element={<Private />}>
+        <Route element={<Private />}>
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/" element={<StatsPage />} />
           <Route path="/roles" element={<RolesPage />} />
           <Route path="/foods" element={<FoodsPage />} />
           <Route path="/foods/:foodId" element={<FoodById />} />
@@ -39,7 +40,6 @@ export const App: React.FC = () => {
           <Route path="/deedline" element={<DeedlinePage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/lunchs" element={<LunchsPage />} />
-          <Route path="/stats" element={<StatsPage />} />
           <Route path="/warehouse" element={<WareHousePage />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Route>

@@ -7,10 +7,7 @@ import Button from "@mui/material/Button";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { TextField, Typography } from "@mui/material";
 import { ReloadContext } from "../../../context/reload.context";
-import {
-  IChangeAmountProps,
-  IChangeFoodProps,
-} from "../../../interfaces/foods.interfaces";
+import { IChangeAmountProps } from "../../../interfaces/foods.interfaces";
 import { putProductAmount, updateFoodPrice } from "../../../services/api";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
@@ -37,11 +34,14 @@ export const ChangeAmountModal: React.FC<IChangeAmountProps> = (props) => {
     if (newAmount !== 0) {
       putProductAmount(changeFoodId as string, prodId, newAmount)
         .then((res: AxiosResponse) => {
+          console.log(res);
+
           if (res.status === 200) {
             toast.success("Amount muvaffaqiyatli ozgartirildi");
           }
         })
         .catch((err: AxiosError) => {
+          console.log(err);
           if (err) {
             toast.error("Amount ozgarmadi qayta urinib koring");
           }
