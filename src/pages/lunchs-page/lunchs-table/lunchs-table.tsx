@@ -51,9 +51,15 @@ export const LunchsTable: React.FC<ILunchsProps> = (props) => {
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{lunch.food?.name}</StyledTableCell>
                 <StyledTableCell>
-                  {accounting.formatNumber(lunch.food?.cost, 0, " ") + " so'm"}
+                  {lunch.food?.name ? lunch.food?.name : ""}
+                </StyledTableCell>
+                <StyledTableCell>
+                  {accounting.formatNumber(
+                    lunch.food?.cost ? lunch.food?.cost : 0,
+                    0,
+                    " "
+                  ) + " so'm"}
                 </StyledTableCell>
                 <StyledTableCell>{lunch.agree_users.length}</StyledTableCell>
                 <StyledTableCell>{lunch.disagree.length}</StyledTableCell>
