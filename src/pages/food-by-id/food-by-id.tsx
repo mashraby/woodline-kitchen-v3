@@ -65,15 +65,17 @@ export const FoodById: React.FC = () => {
   };
 
   useEffect(() => {
-    foodById(foodId as string).then((data: IFoodById) => {
-      setFood(data);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    foodById(foodId as string)
+      .then((data: IFoodById) => {
+        setFood(data);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [reload]);
 
   const EditProduct = (pId: string, amnt: number) => {
@@ -84,21 +86,29 @@ export const FoodById: React.FC = () => {
 
   const handleDeleteProduct = (prod: string) => {
     setReload(!reload);
-    deleteProductById(foodId as string, prod).then(
-      (res: AxiosResponse) => {
-        if(res.status === 200) {
-          toast.success("Product muvaffaqiyatli o'chirildi")
+    deleteProductById(foodId as string, prod)
+      .then((res: AxiosResponse) => {
+        if (res.status === 200) {
+          toast.success("Product muvaffaqiyatli o'chirildi");
         }
-      }
-    ).catch((err:AxiosError) => {
-      if(err) {
-        toast.error("product ochmadi qayta urinib koring")
-      }
-    })
+      })
+      .catch((err: AxiosError) => {
+        if (err) {
+          toast.error("product ochmadi qayta urinib koring");
+        }
+      });
   };
 
-  console.log(food);
-  
+  const [prc, setPrc] = useState<number>(0);
+
+  useEffect(() => {
+    const priceFood = food.products
+      ?.map((p) => {
+        return p.product?.cost * p.amount;
+      })
+      ?.reduce((a, b) => a + b, 0);
+    setPrc(priceFood);
+  }, [food]);
 
   return (
     <>
@@ -151,13 +161,13 @@ export const FoodById: React.FC = () => {
                 p: 4,
                 display: "flex",
                 flexDirection: "column",
-                gap: "25px",
+                gap: "15px",
                 boxShadow: "5px 5px 50px rgba(0, 0, 0, 0.14)",
                 fontSize: "22px",
               }}
             >
-              <Typography variant="h4" component="h2">
-                Название еды: {" "}
+              <Typography variant="h5" component="h2">
+                Название еды:{" "}
                 <span
                   style={{
                     fontStyle: "italic",
@@ -168,7 +178,7 @@ export const FoodById: React.FC = () => {
                 </span>
               </Typography>
 
-              <Typography variant="h4" component="h2">
+              <Typography variant="h5" component="h2">
                 Стоимость еды:{" "}
                 <span
                   style={{
@@ -180,7 +190,30 @@ export const FoodById: React.FC = () => {
                 </span>
               </Typography>
 
-              <Typography variant="h4" component="h2">
+              <Typography variant="h5" component="h2">
+                Изначальная цена:{" "}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    color: "grey",
+                  }}
+                >
+                  {accounting.formatNumber(prc, 0, " ") + " so'm"}
+                </span>
+              </Typography>
+
+              <Typography variant="h5" component="h2">
+                {food.cost - prc > 0 ? "Выгода" : "Вред"}:{" "}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    color: "grey",
+                  }}
+                >
+                  {accounting.formatNumber(food.cost - prc, 0, " ") + " so'm"}
+                </span>
+              </Typography>
+              <Typography variant="h5" component="h2">
                 Категория еды:{" "}
                 <span
                   style={{
@@ -189,7 +222,7 @@ export const FoodById: React.FC = () => {
                   }}
                 >
                   {food?.category.name}
-                </span> 
+                </span>
               </Typography>
 
               <Button
@@ -236,7 +269,9 @@ export const FoodById: React.FC = () => {
                             primary={prod.amount}
                           />
                           <Button
-                            onClick={() => EditProduct(prod.product._id, prod.amount)}
+                            onClick={() =>
+                              EditProduct(prod.product._id, prod.amount)
+                            }
                           >
                             <EditIcon />
                           </Button>

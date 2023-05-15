@@ -267,16 +267,12 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
 
                 <StyledTableCell>
                   <div>
-                    <IconButton
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
+                    <Button
+                      variant="outlined"
                       onClick={(evt) => handleMenu(evt, user)}
-                      color="inherit"
                     >
-                      <MoreVertIcon />
-                    </IconButton>
+                      Параметры
+                    </Button>
                     <Menu
                       id={user._id}
                       anchorEl={anchorEl}
