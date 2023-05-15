@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ILunch, ILunchsProps } from "../../../interfaces/lunchs.interfaces";
+import accounting from "accounting";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,8 +51,10 @@ export const LunchsTable: React.FC<ILunchsProps> = (props) => {
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{lunch.food.name}</StyledTableCell>
-                <StyledTableCell>{lunch.food.cost}</StyledTableCell>
+                <StyledTableCell>{lunch.food?.name}</StyledTableCell>
+                <StyledTableCell>
+                  {accounting.formatNumber(lunch.food?.cost, 0, " ") + " so'm"}
+                </StyledTableCell>
                 <StyledTableCell>{lunch.agree_users.length}</StyledTableCell>
                 <StyledTableCell>{lunch.disagree.length}</StyledTableCell>
               </StyledTableRow>

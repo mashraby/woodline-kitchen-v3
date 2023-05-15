@@ -37,6 +37,8 @@ export const UsersPage: React.FC = () => {
       setUsers(data.users);
       setTotalPage(data.totalPages);
     }).catch((err: AxiosError) => {
+      console.log(err);
+      
       if (err.response?.status === 401) {
         window.localStorage.removeItem("token");
         window.location.reload();

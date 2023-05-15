@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import Chart, {
   LinearScale,
@@ -14,6 +14,10 @@ import BasicDateCalendar from "./date-calendar/date-calendar";
 import StaticTimePickerLandscape from "./time/time";
 import { DoughnutChart } from "./doughnt-chart/d-chart";
 import { AreaChart } from "./area-chart/area-chart";
+import { ReloadContext } from "../../context/reload.context";
+import { IRole } from "../../interfaces/roles.interfaces";
+import { AxiosError, AxiosResponse } from "axios";
+import { getRoles } from "../../services/api";
 
 Chart.register(LinearScale, PointElement, LineElement, Title);
 
@@ -43,27 +47,49 @@ interface DoughnutChartProps {
   labels: string[];
 }
 
-export const StatsPage: React.FC = () => (
-  <Box sx={{ display: "flex" }}>
-    <MiniDrawer />
-    <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-      <BasicDateCalendar />
-      <Grid container spacing={8}>
-        <Grid item xs={6}>
-          <AreaChart />
+export const StatsPage: React.FC = () => {
+  const [roles, setRoles] = useState<IRole[]>([]);
+  const { reload } = useContext(ReloadContext);
+  useEffect(() => {
+    getRoles()
+      .then((res: AxiosResponse) => {
+        console.log(res);
+        
+        setRoles(res.data);
+      })
+      .catch((err: AxiosError) => {
+        console.log(err);
+
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
+  }, [reload]);
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <MiniDrawer />
+      <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
+        <BasicDateCalendar />
+        <Grid container spacing={8}>
+          <Grid item xs={6}>
+            <AreaChart />
+          </Grid>
+          <Grid item xs={6}>
+            <DoughnutChart />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <DoughnutChart />
+        <Grid container spacing={8}>
+          <Grid item xs={6}>
+            <VertBar />
+          </Grid>
+          <Grid item xs={6}>
+            <Line data={data} options={options} />
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container spacing={8}>
-        <Grid item xs={6}>
-          <VertBar />
-        </Grid>
-        <Grid item xs={6}>
-          <Line data={data} options={options} />
-        </Grid>
-      </Grid>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
