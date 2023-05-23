@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { ICategory } from "../../../interfaces/categorys.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
 import { Button } from "@mui/material";
-import { getCategory } from "../../../services/api";
+import { getCategory } from "../../../services/api.service";
 import accounting from "accounting";
 import { Link } from "react-router-dom";
 

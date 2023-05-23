@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
-import { getFoods } from "../../services/api";
+import { getFoods } from "../../services/api.service";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import { Button, Typography } from "@mui/material";
@@ -24,17 +24,18 @@ export const FoodsPage: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const { reload } = useContext(ReloadContext);
 
-
   useEffect((): void => {
-    getFoods().then((data) => {
-      setFoods(data);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    getFoods()
+      .then((data) => {
+        setFoods(data);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [reload]);
 
   return (

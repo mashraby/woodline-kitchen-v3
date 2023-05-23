@@ -14,7 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, FormControlLabel, Switch, SwitchProps } from "@mui/material";
 import accounting from "accounting";
-import { getProducts, updateUserStatus } from "../../../services/api";
+import { getProducts, updateUserStatus } from "../../../services/api.service";
 import { ReloadContext } from "../../../context/reload.context";
 import {
   IWarehouse,

@@ -1,5 +1,3 @@
-// import dotenv from "dotenv";
-// dotenv.config();
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
@@ -11,6 +9,7 @@ import GlobalStyle from "./globals/GlobalStyle";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as ReloadProvider } from "./context/reload.context";
 import { Provider as TokenProvider } from "./context/token.context";
+import { Provider as SearchProvider } from "./context/search.context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -21,9 +20,11 @@ root.render(
     <GlobalStyle />
     <TokenProvider>
       <ReloadProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <SearchProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </SearchProvider>
       </ReloadProvider>
     </TokenProvider>
   </React.StrictMode>

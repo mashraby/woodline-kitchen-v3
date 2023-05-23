@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { IRole } from "../../interfaces/roles.interfaces";
-import { getRoles } from "../../services/api";
+import { getRoles } from "../../services/api.service";
 import { RolesTable } from "../roles-page/roles-table/roles-table";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import styled from "styled-components";

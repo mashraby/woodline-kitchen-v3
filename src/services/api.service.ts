@@ -29,7 +29,13 @@ export const login = (
 // Users Service //
 
 export const getUsers = (): Promise<Array<IPerson>> => {
-  return instance.get("/user").then((res) => res.data);
+  return instance.get("/user").then((res: AxiosResponse) => res.data);
+};
+
+export const getSearchUsers = (value: string): Promise<Array<IPerson>> => {
+  return instance
+    .get(`/user/search?tearms=${value}`)
+    .then((res: AxiosResponse) => res.data);
 };
 
 export const getUsersPagination = (
@@ -38,7 +44,7 @@ export const getUsersPagination = (
 ): Promise<IUsersPagination> => {
   return instance
     .get(`/user/pagination/?page=${page}&size=${size}`)
-    .then((res) => res.data);
+    .then((res: AxiosResponse) => res.data);
 };
 
 export const postBalance = (

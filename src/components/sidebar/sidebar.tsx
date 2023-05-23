@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
@@ -32,6 +32,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { SearchContext } from "../../context/search.context";
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -154,6 +155,7 @@ const Drawer = styled(MuiDrawer, {
 export const MiniDrawer: React.FC = () => {
   const theme = useTheme();
   const myOpen = JSON.parse(localStorage.getItem("open") as any);
+  const { setSearchValue } = useContext(SearchContext)
   const [open, setOpen] = useState(myOpen);
   const href: string = window.location.href
     .toString()
@@ -197,6 +199,7 @@ export const MiniDrawer: React.FC = () => {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
+                onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="Поиск…"
                 inputProps={{ "aria-label": "search" }}
               />

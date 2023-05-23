@@ -4,7 +4,7 @@ import { IChangeUsernameProps } from "../../../interfaces/users.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { toast } from "react-toastify";
-import { updateUsername } from "../../../services/api";
+import { updateUsername } from "../../../services/api.service";
 import { AxiosError, AxiosResponse } from "axios";
 
 const style = {

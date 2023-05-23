@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { IProduct } from "../../interfaces/products.interface";
-import { getProducts } from "../../services/api";
+import { getProducts } from "../../services/api.service";
 import { AddProductModal } from "./add-product-modal/add-product-modal";
 import { ProductsTable } from "./products-table/products-table";
 import { AxiosError } from "axios";
@@ -16,25 +16,25 @@ const FlexWrapper = styled.div`
   width: 100%;
   margin-bottom: 12px;
 `;
-                  
+
 export const ProductsPage: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<Array<IProduct>>([]);
-  const {reload} = useContext(ReloadContext)
+  const { reload } = useContext(ReloadContext);
 
   useEffect(() => {
-    getProducts().then((data) => {
-      setProducts(data);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    getProducts()
+      .then((data) => {
+        setProducts(data);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [reload]);
-
-  
 
   return (
     <>

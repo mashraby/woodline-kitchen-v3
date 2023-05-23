@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import styled from "styled-components";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { IWarehouse } from "../../interfaces/warehouse.interface";
-import { getWarehouses } from "../../services/api";
+import { getWarehouses } from "../../services/api.service";
 import { WareHouseTable } from "./warehouse-table/warehouse-table";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AddWarehouseModal } from "./add-modal/add-modal";
@@ -25,15 +25,17 @@ export const WareHousePage: React.FC = () => {
   const { reload } = useContext(ReloadContext);
 
   useEffect(() => {
-    getWarehouses().then((data) => {
-      setWarehouses(data);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    getWarehouses()
+      .then((data) => {
+        setWarehouses(data);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [reload]);
 
   return (
