@@ -27,6 +27,8 @@ export const RolesPage: React.FC = () => {
   useEffect(() => {
     getRoles()
       .then((res: AxiosResponse) => {
+        console.log(res);
+        
         setRoles(res.data);
       })
       .catch((err: AxiosError) => {

@@ -46,12 +46,12 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
 
   const handleChangeUser = (): void => {
     if (newRole == "") {
-      toast.warning("Role ni hali o'zgartirmadingiz");
+      toast.warning("User ni hali o'zgartirmadingiz");
     } else {
       updateUserRole(userId, newRole)
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
-            toast.success("Role muvaffaqiyatli o'zgartirildi");
+            toast.success("User muvaffaqiyatli o'zgartirildi");
           }
         })
         .finally(() => {
@@ -61,7 +61,7 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
         })
         .catch((err) => {
           if (err) {
-            toast.error("Role ozgarmadi qayta urinib koring");
+            toast.error("User ozgarmadi qayta urinib koring");
           }
         });
     }
@@ -108,9 +108,6 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
                     </MenuItem>
                   );
                 })}
-
-              {/* <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem> */}
             </Select>
           </FormControl>
           <Button
