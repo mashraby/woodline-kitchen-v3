@@ -6,7 +6,7 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { TextField, Typography } from "@mui/material";
-import { postCategory, postRole } from "../../../services/api";
+import { postCategory, postRole } from "../../../services/api.service";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
 import { ReloadContext } from "../../../context/reload.context";

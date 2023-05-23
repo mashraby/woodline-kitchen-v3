@@ -12,7 +12,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { IFood, IFoodById } from "../../interfaces/foods.interfaces";
-import { deleteProductById, foodById } from "../../services/api";
+import { deleteProductById, foodById } from "../../services/api.service";
 import Divider from "@mui/material/Divider";
 
 import DeleteIcon from "@mui/icons-material/Delete";

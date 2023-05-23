@@ -24,7 +24,7 @@ import {
   SwitchProps,
 } from "@mui/material";
 import accounting from "accounting";
-import { updateUserStatus } from "../../../services/api";
+import { updateUserStatus } from "../../../services/api.service";
 import { ReloadContext } from "../../../context/reload.context";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { ChangeUserNameModal } from "../change-name-modal/change-modal";
@@ -246,7 +246,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                       onChange={() => myChangeFn(user)}
                       control={
                         <IOSSwitch
-                          checked={user.is_verified}
+                          // checked={user.is_verified}
                           sx={{ m: 1 }}
                           defaultChecked={user.is_verified ? true : false}
                         />

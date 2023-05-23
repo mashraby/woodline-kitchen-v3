@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { TextField, Typography } from "@mui/material";
 import { IDeedlineModalProps } from "../../../interfaces/deedline.interface";
-import { updateDeedlines } from "../../../services/api";
+import { updateDeedlines } from "../../../services/api.service";
 import { ReloadContext } from "../../../context/reload.context";
 import { toast } from "react-toastify";
 
@@ -44,11 +44,11 @@ export const ChangeDeedModal: React.FC<IDeedlineModalProps> = (props) => {
           }
         })
         .finally(() => {
-          setTime(undefined)
+          setTime(undefined);
           setOpen(!open);
         });
     } else {
-      toast.warning("Hali vaqtni ozgartirmadingiz")
+      toast.warning("Hali vaqtni ozgartirmadingiz");
     }
   };
 

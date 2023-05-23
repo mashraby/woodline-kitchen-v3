@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TextField, Typography, Button, Modal, Box } from "@mui/material";
 import { IOpenModalUserProps } from "../../../interfaces/users.interfaces";
-import { getRoles, updateUserRole } from "../../../services/api";
+import { getRoles, updateUserRole } from "../../../services/api.service";
 import { IRole } from "../../../interfaces/roles.interfaces";
 import { ReloadContext } from "../../../context/reload.context";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
@@ -35,7 +35,7 @@ export const BasicModalUser: React.FC<IOpenModalUserProps> = (props) => {
   const [roles, setRoles] = useState<IRole[]>([]);
 
   useEffect((): void => {
-    getRoles().then((res:AxiosResponse) => {
+    getRoles().then((res: AxiosResponse) => {
       setRoles(res.data);
     });
   }, [reload]);

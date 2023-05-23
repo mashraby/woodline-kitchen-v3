@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { IAddTakeModalProps } from "../../../interfaces/warehouse.interface";
-import { postWarehouseTake } from "../../../services/api";
+import { postWarehouseTake } from "../../../services/api.service";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ReloadContext } from "../../../context/reload.context";

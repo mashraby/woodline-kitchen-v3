@@ -11,7 +11,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { getPaginationPayments, getPayments } from "../../services/api";
+import { getPaginationPayments, getPayments } from "../../services/api.service";
 import { IPayment } from "../../interfaces/payments.interfacess";
 import { PaymentsTable } from "./payments-table/payments-table";
 import { AxiosError } from "axios";
@@ -31,16 +31,18 @@ export const PaymentsPage: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
 
   useEffect(() => {
-    getPaginationPayments(page, pageSize).then((data) => {
-      setPayments(data.payments);
-      setTotalPage(data.totalPages);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    getPaginationPayments(page, pageSize)
+      .then((data) => {
+        setPayments(data.payments);
+        setTotalPage(data.totalPages);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [page, pageSize]);
 
   const handlePageChange = (

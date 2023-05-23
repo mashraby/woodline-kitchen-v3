@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import { TextField, Typography } from "@mui/material";
-import { editProduct, postProduct } from "../../../services/api";
+import { editProduct, postProduct } from "../../../services/api.service";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
 import { ReloadContext } from "../../../context/reload.context";

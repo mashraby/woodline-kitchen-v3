@@ -8,7 +8,10 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import { TextField, Typography } from "@mui/material";
 import { ReloadContext } from "../../../context/reload.context";
 import { IChangeAmountProps } from "../../../interfaces/foods.interfaces";
-import { putProductAmount, updateFoodPrice } from "../../../services/api";
+import {
+  putProductAmount,
+  updateFoodPrice,
+} from "../../../services/api.service";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
 

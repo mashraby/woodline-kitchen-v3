@@ -8,7 +8,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { Autocomplete, TextField, Typography } from "@mui/material";
 import { IAddWarehouseProps } from "../../../interfaces/warehouse.interface";
 import { IProduct } from "../../../interfaces/products.interface";
-import { getProducts, postWarehouse } from "../../../services/api";
+import { getProducts, postWarehouse } from "../../../services/api.service";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ReloadContext } from "../../../context/reload.context";

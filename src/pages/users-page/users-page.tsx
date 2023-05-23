@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { IPerson } from "../../interfaces/users.interfaces";
-import { getUsers, getUsersPagination } from "../../services/api";
+import {
+  getSearchUsers,
+  getUsers,
+  getUsersPagination,
+} from "../../services/api.service";
 import { UsersTable } from "./users-table/users-table";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
@@ -15,7 +19,10 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
+import { getUserAnalytics } from "../../services/analytics.service";
+import { instance } from "../../config/axios.config";
+import { SearchContext } from "../../context/search.context";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -32,20 +39,27 @@ export const UsersPage: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const { reload } = useContext(ReloadContext);
 
+  const { searchValue } = useContext(SearchContext);
+
+  // useEffect(() => {
+  // }, [])
+
   useEffect((): void => {
-    getUsersPagination(page, pageSize).then((data) => {
-      setUsers(data.users);
-      setTotalPage(data.totalPages);
-    }).catch((err: AxiosError) => {
-      console.log(err);
-      
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
-  }, [reload, page, pageSize]);
+    searchValue !== ""
+      ? getSearchUsers(searchValue).then((data) => setUsers(data))
+      : getUsersPagination(page, pageSize)
+          .then((data) => {
+            setUsers(data.users);
+            setTotalPage(data.totalPages);
+          })
+          .catch((err: AxiosError) => {
+            if (err.response?.status === 401) {
+              window.localStorage.removeItem("token");
+              window.location.reload();
+              window.location.href = "/login";
+            }
+          });
+  }, [reload, page, pageSize, searchValue]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,

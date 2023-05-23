@@ -17,7 +17,11 @@ import {
 import { ReloadContext } from "../../../context/reload.context";
 import { IAddFoodProps } from "../../../interfaces/foods.interfaces";
 import { ICategory } from "../../../interfaces/categorys.interfaces";
-import { getCategory, getProducts, postFood } from "../../../services/api";
+import {
+  getCategory,
+  getProducts,
+  postFood,
+} from "../../../services/api.service";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";

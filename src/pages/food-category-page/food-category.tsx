@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
-import { getCategory } from "../../services/api";
+import { getCategory } from "../../services/api.service";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import { Button, Typography } from "@mui/material";
@@ -25,17 +25,19 @@ export const FoodCategoryPage: React.FC = () => {
   const { reload } = useContext(ReloadContext);
 
   useEffect((): void => {
-    getCategory().then((data) => {
-      setCategorys(data);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    getCategory()
+      .then((data) => {
+        setCategorys(data);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [reload]);
-  
+
   return (
     <>
       <AddCategoryModal open={open} setOpen={setOpen} />

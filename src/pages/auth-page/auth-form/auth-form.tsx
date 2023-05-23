@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, TextField, Button } from "@mui/material";
 import styled from "styled-components";
 import { ILogin } from "../../../interfaces/login.interfaces";
-import { login } from "../../../services/api";
+import { login } from "../../../services/api.service";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import useToken from "../../../hooks/usetoken.hook";

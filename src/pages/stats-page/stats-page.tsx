@@ -17,7 +17,7 @@ import { AreaChart } from "./area-chart/area-chart";
 import { ReloadContext } from "../../context/reload.context";
 import { IRole } from "../../interfaces/roles.interfaces";
 import { AxiosError, AxiosResponse } from "axios";
-import { getRoles } from "../../services/api";
+import { getRoles } from "../../services/api.service";
 
 Chart.register(LinearScale, PointElement, LineElement, Title);
 
@@ -53,13 +53,9 @@ export const StatsPage: React.FC = () => {
   useEffect(() => {
     getRoles()
       .then((res: AxiosResponse) => {
-        console.log(res);
-        
         setRoles(res.data);
       })
       .catch((err: AxiosError) => {
-        console.log(err);
-
         if (err.response?.status === 401) {
           window.localStorage.removeItem("token");
           window.location.reload();
@@ -67,6 +63,10 @@ export const StatsPage: React.FC = () => {
         }
       });
   }, [reload]);
+
+  const token: string | null = window.localStorage.getItem("token");
+
+  console.log(token);
 
   return (
     <Box sx={{ display: "flex" }}>

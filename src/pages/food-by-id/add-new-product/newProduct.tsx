@@ -11,7 +11,7 @@ import {
   IAddNewProductProps,
   IChangeFoodProps,
 } from "../../../interfaces/foods.interfaces";
-import { addProductById, getProducts } from "../../../services/api";
+import { addProductById, getProducts } from "../../../services/api.service";
 import { toast } from "react-toastify";
 import { IProduct } from "../../../interfaces/products.interface";
 import { AxiosResponse } from "axios";
@@ -49,14 +49,14 @@ export const AddNewProductModal: React.FC<IAddNewProductProps> = (props) => {
       addProductById(foodId as string, product as string, amount)
         .then((res: AxiosResponse) => {
           console.log(res);
-          
+
           if (res.status === 200) {
             toast.success("Product qo'shildi");
           }
         })
         .catch((err) => {
           console.log(err);
-          
+
           if (err) {
             toast.error("Product qo'shilmadi qayta urinib koring");
           }

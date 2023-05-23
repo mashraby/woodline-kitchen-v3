@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { OrdersTable } from "./orders-table/orders-table";
-import { getPaginationOrders } from "../../services/api";
+import { getPaginationOrders } from "../../services/api.service";
 import { IOrder } from "../../interfaces/orders.interfaces";
 import { ReloadContext } from "../../context/reload.context";
 import { AxiosError } from "axios";
@@ -30,19 +30,21 @@ export const OrdersPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalPage, setTotalPage] = useState<number>();
-  const {reload} = useContext(ReloadContext)
+  const { reload } = useContext(ReloadContext);
 
   useEffect(() => {
-    getPaginationOrders(page, pageSize).then((data) => {
-      setOrders(data.orders);
-      setTotalPage(data.totalPages);
-    }).catch((err: AxiosError) => {
-      if (err.response?.status === 401) {
-        window.localStorage.removeItem("token");
-        window.location.reload();
-        window.location.href = "/login";
-      }
-    });
+    getPaginationOrders(page, pageSize)
+      .then((data) => {
+        setOrders(data.orders);
+        setTotalPage(data.totalPages);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          window.localStorage.removeItem("token");
+          window.location.reload();
+          window.location.href = "/login";
+        }
+      });
   }, [page, pageSize, reload]);
 
   const handlePageChange = (
@@ -50,7 +52,7 @@ export const OrdersPage: React.FC = () => {
     page: number
   ) => {
     setPage(page);
-  };  
+  };
 
   return (
     <>

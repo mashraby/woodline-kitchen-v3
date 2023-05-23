@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { TextField, Typography, Button, Modal, Box } from "@mui/material";
 import { IOpenModalProps } from "../../../interfaces/users.interfaces";
-import { postBalance } from "../../../services/api";
+import { postBalance } from "../../../services/api.service";
 import { ReloadContext } from "../../../context/reload.context";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { toast } from "react-toastify";
 import accounting from "accounting";
 
@@ -75,13 +75,12 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             ): void => {
               setEmpty(false);
               setChangeBalance(+e.target.value);
-
             }}
             sx={{ width: 1, mb: 1.5 }}
             id={empty ? "outlined-error" : "outlined-basic"}
             label={empty ? "Введите значение" : "Добавить баланс"}
             variant="outlined"
-          />    
+          />
           <Button
             onClick={handleChangeBalance}
             sx={{ width: 1 }}

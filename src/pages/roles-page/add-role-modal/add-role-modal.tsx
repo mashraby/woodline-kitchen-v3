@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { TextField, Typography } from "@mui/material";
 import { IAddRoleProps } from "../../../interfaces/addrole.interfaces";
-import { postRole } from "../../../services/api";
+import { postRole } from "../../../services/api.service";
 import { toast } from "react-toastify";
 import { AxiosError, AxiosResponse } from "axios";
 import { ReloadContext } from "../../../context/reload.context";
