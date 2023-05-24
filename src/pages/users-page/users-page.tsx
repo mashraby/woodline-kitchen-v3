@@ -38,11 +38,7 @@ export const UsersPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const { reload } = useContext(ReloadContext);
-
   const { searchValue } = useContext(SearchContext);
-
-  // useEffect(() => {
-  // }, [])
 
   useEffect((): void => {
     searchValue !== ""
@@ -50,6 +46,7 @@ export const UsersPage: React.FC = () => {
       : getUsersPagination(page, pageSize)
           .then((data) => {
             setUsers(data.users);
+
             setTotalPage(data.totalPages);
           })
           .catch((err: AxiosError) => {

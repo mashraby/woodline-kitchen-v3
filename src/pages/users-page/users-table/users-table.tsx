@@ -31,6 +31,7 @@ import { ChangeUserNameModal } from "../change-name-modal/change-modal";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/system";
+import { AnalyticModal } from "../analytic-modal/analytic-modal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -112,6 +113,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const rows: IRow[] = [];
   const users: IPerson[] = props.users as any;
   const [open, setOpen] = useState<boolean>(false);
+  const [analyticOpen, setAnalyticOpen] = useState<boolean>(false);
   const [openUser, setOpenUser] = useState<boolean>(false);
   const [nameOpen, setNameOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
@@ -120,6 +122,8 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
   const [userRole, setUserRole] = useState<string>("");
   const [iUser, setIUser] = useState<string>("");
   const [nameUserId, setNameUserId] = useState<string>("");
+  const [anyId, setAnyId] = useState<string>("");
+  const [date, setDate] = useState<number>(0);
   const [loadData, setLoadData] = useState<ILoadData>({
     isLoading: false,
     id: "",
@@ -159,7 +163,6 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
           isLoading: false,
           id: "",
         });
-        // toast.success("Status muvaffaqiyatli o'zgartirildi");
       }
     });
   };
@@ -177,6 +180,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
     setText(user.fullname);
     setUserId(user._id);
     setBalance(user.balance);
+    setAnyId(user._id);
   };
 
   const handleClose = () => {
@@ -185,6 +189,14 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
 
   const handleChangeUserName = () => {
     setNameOpen(true);
+  };
+
+  const handleAnalyticModal = () => {
+    const date = new Date();
+
+    setDate(date.getTime());
+
+    setAnalyticOpen(true);
   };
 
   return (
@@ -211,6 +223,14 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
         user={iUser}
         id={nameUserId}
       />
+
+      <AnalyticModal
+        open={analyticOpen}
+        setOpen={setAnalyticOpen}
+        id={anyId}
+        date={date}
+      />
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -268,8 +288,12 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                 <StyledTableCell>
                   <div>
                     <Button
+                      style={{ zIndex: 1000 }}
                       variant="outlined"
-                      onClick={(evt) => handleMenu(evt, user)}
+                      onClick={(evt) => {
+                        setAnalyticOpen(false);
+                        handleMenu(evt, user);
+                      }}
                     >
                       Параметры
                     </Button>
@@ -296,6 +320,10 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                       </MenuItem>
                       <MenuItem onClick={handleChangeUserName}>
                         Изменить Имя
+                      </MenuItem>
+
+                      <MenuItem onClick={handleAnalyticModal}>
+                        Аналитика пользователя
                       </MenuItem>
                     </Menu>
                   </div>

@@ -1,25 +1,68 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { instance } from "../config/axios.config";
+import { IPerson } from "../interfaces/users.interfaces";
 
-interface UserData {
-  id: string;
-  date: number;
+interface UsrAnalytics {
+  user: IPerson;
+  profit: number;
 }
 
-const userAnalyticsInstance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL_PRODUCTION,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-  },
-  data: {
-    user: "645e43332f37165dcdf1cc2a",
-    date: 1684608076113,
-  },
-});
+export const getUserAnalytics = (
+  user: string,
+  date: number
+): Promise<UsrAnalytics> => {
+  return instance
+    .patch("/order/user/profit", {
+      user,
+      date,
+    })
+    .then((res: AxiosResponse) => res.data);
+};
 
-export const getUserAnalytics = () => {
-  return userAnalyticsInstance
-    .get("/order/user/profit")
-    .then((res) => res.data);
+export interface TodayTushum {
+  date: string;
+  profit: number;
+}
+
+export const todaysTushum = (
+  type: string,
+  date: number
+): Promise<TodayTushum> => {
+  return instance
+    .patch("/analitics/today", { type, date })
+    .then((res: AxiosResponse) => res.data);
+};
+
+interface ChiqimDate {
+  start: string,
+  end: string
+}
+
+export interface ChiqimInt {
+  date: ChiqimDate,
+  orders: number
+  sum: number
+}
+
+export const todaysChiqim = (
+  type: string,
+  date: number
+): Promise<ChiqimInt> => {
+  return instance
+    .patch("/analitics/today/spent", { type, date })
+    .then((res: AxiosResponse) => res.data);
+};
+
+export interface FoydaInt {
+  date: ChiqimDate,
+  sum: number
+}
+
+export const todaysFoyda = (
+  type: string,
+  date: number
+): Promise<FoydaInt> => {
+  return instance
+    .patch("/analitics/today/profit", { type, date })
+    .then((res: AxiosResponse) => res.data);
 };
