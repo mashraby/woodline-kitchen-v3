@@ -9,7 +9,17 @@ import Chart, {
 import { Box } from "@mui/system";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
 import { VertBar } from "./vert-bar/vert-bar";
-import { Grid } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import BasicDateCalendar from "./date-calendar/date-calendar";
 import StaticTimePickerLandscape from "./time/time";
 import { DoughnutChart } from "./doughnt-chart/d-chart";
@@ -18,6 +28,17 @@ import { ReloadContext } from "../../context/reload.context";
 import { IRole } from "../../interfaces/roles.interfaces";
 import { AxiosError, AxiosResponse } from "axios";
 import { getRoles } from "../../services/api.service";
+import {
+  ChiqimInt,
+  FoydaInt,
+  TodayTushum,
+  todaysChiqim,
+  todaysFoyda,
+  todaysTushum,
+} from "../../services/analytics.service";
+import accounting from "accounting";
+import moment from "moment";
+import "moment/locale/ru";
 
 Chart.register(LinearScale, PointElement, LineElement, Title);
 
@@ -50,6 +71,30 @@ interface DoughnutChartProps {
 export const StatsPage: React.FC = () => {
   const [roles, setRoles] = useState<IRole[]>([]);
   const { reload } = useContext(ReloadContext);
+  const [type, setType] = useState<string>("day");
+
+  const [todayTushum, setTodayTushum] = useState<TodayTushum>({
+    date: "",
+    profit: 0,
+  });
+
+  const [todayChiqim, setTodayChiqim] = useState<ChiqimInt>({
+    date: {
+      start: "",
+      end: "",
+    },
+    orders: 0,
+    sum: 0,
+  });
+
+  const [todayFoyda, setTodayFoyda] = useState<FoydaInt>({
+    date: {
+      start: "",
+      end: "",
+    },
+    sum: 0,
+  });
+
   useEffect(() => {
     getRoles()
       .then((res: AxiosResponse) => {
@@ -64,16 +109,87 @@ export const StatsPage: React.FC = () => {
       });
   }, [reload]);
 
-  const token: string | null = window.localStorage.getItem("token");
+  const date = new Date();
 
-  console.log(token);
+  useEffect(() => {
+    todaysTushum(type, date.getTime()).then((data) => setTodayTushum(data));
+    todaysChiqim(type, date.getTime()).then((data) => setTodayChiqim(data));
+    todaysFoyda(type, date.getTime()).then((data) => setTodayFoyda(data));
+  }, [type]);
 
   return (
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-        <BasicDateCalendar />
-        <Grid container spacing={8}>
+        {/* <BasicDateCalendar /> */}
+
+        <Box
+          sx={{ display: "flex", justifyContent: "space-between" }}
+          my={"20px"}
+        >
+          <Typography variant="h3" fontFamily={"monospace"} fontWeight={"500"}>
+            {type === "day"
+              ? "Kunlik xisobot"
+              : type === "week"
+              ? "Xaftalik xisobot"
+              : type === "month"
+              ? "Oylik xisobot"
+              : "Yillik xisobot"}
+          </Typography>
+
+          <FormControl required sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-required-label">
+              Daily
+            </InputLabel>
+            <Select
+              defaultValue="day"
+              onChange={(e: SelectChangeEvent) => {
+                setType(e.target.value);
+              }}
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              label="size *"
+            >
+              <MenuItem value={"day"}>Daily</MenuItem>
+              <MenuItem value={"week"}>Weekly</MenuItem>
+              <MenuItem value={"month"}>Monthly</MenuItem>
+              <MenuItem value={"year"}>Yearly</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Grid container spacing={4} mb={"20px"}>
+          <Grid item xs={4}>
+            <Alert icon={false} severity="error">
+              <AlertTitle sx={{ fontSize: "26px" }}>
+                💰 Umumiy savdo - ({todayChiqim.orders} ta zakaz)
+              </AlertTitle>
+              <Box fontSize={"20px"}>
+                {accounting.formatNumber(todayTushum.profit, 0, " ")} so'm
+              </Box>
+            </Alert>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Alert icon={false} severity="info">
+              <AlertTitle sx={{ fontSize: "26px" }}>💸 Xarajat</AlertTitle>
+              <Box fontSize={"20px"}>
+                {accounting.formatNumber(todayChiqim.sum, 0, " ")} so'm
+              </Box>
+            </Alert>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Alert icon={false} severity="success">
+              <AlertTitle sx={{ fontSize: "26px" }}>🤑 Sof foyda</AlertTitle>
+              <Box fontSize={"20px"}>
+                {accounting.formatNumber(todayFoyda.sum, 0, " ")} so'm
+              </Box>
+            </Alert>
+          </Grid>
+        </Grid>
+
+        {/* <Grid container spacing={8}>
           <Grid item xs={6}>
             <AreaChart />
           </Grid>
@@ -88,7 +204,7 @@ export const StatsPage: React.FC = () => {
           <Grid item xs={6}>
             <Line data={data} options={options} />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Box>
     </Box>
   );
