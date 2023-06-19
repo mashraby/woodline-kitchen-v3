@@ -132,11 +132,15 @@ export const postFood = (
 
 export const updateFoodPrice = (
   id: string,
-  cost: number | undefined
+  cost: number | undefined,
+  cookCost: number | undefined,
+  name: string
 ): Promise<AxiosResponse> => {
   return instance.put("/food", {
     id,
     cost,
+    cookCost,
+    name
   });
 };
 

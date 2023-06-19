@@ -1,29 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
-import Chart, {
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-} from "chart.js/auto";
+
 import { Box } from "@mui/system";
 import { MiniDrawer } from "../../components/sidebar/sidebar";
-import { VertBar } from "./vert-bar/vert-bar";
 import {
-  Alert,
-  AlertTitle,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
-  Typography,
 } from "@mui/material";
-import BasicDateCalendar from "./date-calendar/date-calendar";
-import StaticTimePickerLandscape from "./time/time";
-import { DoughnutChart } from "./doughnt-chart/d-chart";
-import { AreaChart } from "./area-chart/area-chart";
 import { ReloadContext } from "../../context/reload.context";
 import { IRole } from "../../interfaces/roles.interfaces";
 import { AxiosError, AxiosResponse } from "axios";
@@ -40,33 +26,56 @@ import accounting from "accounting";
 import moment from "moment";
 import "moment/locale/ru";
 
-Chart.register(LinearScale, PointElement, LineElement, Title);
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-const data = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-  datasets: [
-    {
-      label: "My First dataset",
-      data: [65, 59, 80, 81, 56, 55, 40],
-      fill: false,
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgba(255, 99, 132, 0.2)",
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
     },
-  ],
-};
-
-const options = {
-  scales: {
-    y: {
-      beginAtZero: true,
+    title: {
+      display: true,
+      text: 'Chart.js Bar Chart',
     },
   },
 };
 
-interface DoughnutChartProps {
-  data: number[];
-  labels: string[];
-}
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: [23, 90, 54, 67 , 77, 42, 99],
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'Dataset 2',
+      data: [77, 64, 12, 59, 34, 81, 55],
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
 
 export const StatsPage: React.FC = () => {
   const [roles, setRoles] = useState<IRole[]>([]);
@@ -121,90 +130,32 @@ export const StatsPage: React.FC = () => {
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-        {/* <BasicDateCalendar /> */}
-
-        <Box
-          sx={{ display: "flex", justifyContent: "space-between" }}
-          my={"20px"}
-        >
-          <Typography variant="h3" fontFamily={"monospace"} fontWeight={"500"}>
-            {type === "day"
-              ? "Kunlik xisobot"
-              : type === "week"
-              ? "Xaftalik xisobot"
-              : type === "month"
-              ? "Oylik xisobot"
-              : "Yillik xisobot"}
-          </Typography>
-
-          <FormControl required sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-required-label">
-              Daily
-            </InputLabel>
-            <Select
-              defaultValue="day"
-              onChange={(e: SelectChangeEvent) => {
-                setType(e.target.value);
-              }}
-              labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
-              label="size *"
-            >
-              <MenuItem value={"day"}>Daily</MenuItem>
-              <MenuItem value={"week"}>Weekly</MenuItem>
-              <MenuItem value={"month"}>Monthly</MenuItem>
-              <MenuItem value={"year"}>Yearly</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-
-        <Grid container spacing={4} mb={"20px"}>
-          <Grid item xs={4}>
-            <Alert icon={false} severity="error">
-              <AlertTitle sx={{ fontSize: "26px" }}>
-                💰 Umumiy savdo - ({todayChiqim.orders} ta zakaz)
-              </AlertTitle>
-              <Box fontSize={"20px"}>
-                {accounting.formatNumber(todayTushum.profit, 0, " ")} so'm
-              </Box>
-            </Alert>
-          </Grid>
-
-          <Grid item xs={4}>
-            <Alert icon={false} severity="info">
-              <AlertTitle sx={{ fontSize: "26px" }}>💸 Xarajat</AlertTitle>
-              <Box fontSize={"20px"}>
-                {accounting.formatNumber(todayChiqim.sum, 0, " ")} so'm
-              </Box>
-            </Alert>
-          </Grid>
-
-          <Grid item xs={4}>
-            <Alert icon={false} severity="success">
-              <AlertTitle sx={{ fontSize: "26px" }}>🤑 Sof foyda</AlertTitle>
-              <Box fontSize={"20px"}>
-                {accounting.formatNumber(todayFoyda.sum, 0, " ")} so'm
-              </Box>
-            </Alert>
-          </Grid>
-        </Grid>
-
-        {/* <Grid container spacing={8}>
-          <Grid item xs={6}>
-            <AreaChart />
-          </Grid>
-          <Grid item xs={6}>
-            <DoughnutChart />
-          </Grid>
-        </Grid>
         <Grid container spacing={8}>
-          <Grid item xs={6}>
-            <VertBar />
+          <Grid item xs={10}>
+            <Bar options={options} data={data} /> 
           </Grid>
-          <Grid item xs={6}>
-            <Line data={data} options={options} />
+          <Grid item xs={2}>
+            <FormControl required sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-required-label">
+                Daily
+              </InputLabel>
+              <Select
+                defaultValue="day"
+                onChange={(e: SelectChangeEvent) => {
+                  setType(e.target.value);
+                }}
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                label="size *"
+              >
+                <MenuItem value={"day"}>Daily</MenuItem>
+                <MenuItem value={"week"}>Weekly</MenuItem>
+                <MenuItem value={"month"}>Monthly</MenuItem>
+                <MenuItem value={"year"}>Yearly</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
-        </Grid> */}
+        </Grid>
       </Box>
     </Box>
   );

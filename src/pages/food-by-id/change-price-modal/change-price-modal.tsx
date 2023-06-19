@@ -24,16 +24,19 @@ const style = {
 };
 
 export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
-  const { changeOpen, setChangeOpen, oldCost, foodId } = props;
+  const { changeOpen, setChangeOpen, oldCost, foodId, oldCookPrice, oldName } =
+    props;
   const handleClose = () => setChangeOpen(false);
   const [costEmpty, setCostEmty] = useState<boolean>(false);
   const [newCost, setNewCost] = useState<number>();
+  const [newCookCost, setCookNewCost] = useState<number>();
+  const [newName, setNewName] = useState<string>("");
   const { reload, setReload } = useContext(ReloadContext);
 
   const changeFoodPrice = (): void => {
-    if (newCost !== undefined) {
+    // if (newCost !== undefined) {
       setReload(!reload);
-      updateFoodPrice(foodId, newCost)
+      updateFoodPrice(foodId, newCost, newCookCost, newName)
         .then((data) => {
           if (data && data.status === 200) {
             toast.success("Food narxi o'zgartirildi");
@@ -48,9 +51,9 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
           setNewCost(undefined);
           setChangeOpen(false);
         });
-    } else {
-      toast.warning("Hali ovqat narxini o'zgartirmadingiz");
-    }
+    // } else {
+    //   toast.warning("Hali ovqat narxini o'zgartirmadingiz");
+    // }
   };
 
   return (
@@ -68,37 +71,59 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
       >
         <Fade in={changeOpen}>
           <Box sx={style}>
-            <Typography
-              sx={{ textAlign: "center" }}
-              variant="h4"
-              component="div"
-            >
-              Изменить цену
-            </Typography>
-            <TextField
-              defaultValue={oldCost}
-              error={costEmpty ? true : false}
-              type="number"
-              onChange={(
-                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-              ) => {
-                setCostEmty(false);
-                setNewCost(+e.target.value);
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px",
               }}
-              sx={{ my: 2, width: "100%" }}
-              id={costEmpty ? "outlined-error" : "outlined-basic"}
-              label={costEmpty ? "Введите значение" : "Напишите стоимость еды"}
-              variant="outlined"
-            />
-
-            <Button
-              onClick={changeFoodPrice}
-              sx={{ width: "100%" }}
-              variant="contained"
-              endIcon={<ChangeCircleIcon />}
             >
-              Изменить цену
-            </Button>
+              <Typography
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewName(e.target.value)
+                }
+                sx={{ textAlign: "center" }}
+                variant="h4"
+                component="div"
+              >
+                Изменить цену
+              </Typography>
+
+              <TextField defaultValue={oldName} fullWidth type="text" />
+              <TextField
+                onChange={(e) => setCookNewCost(+e.target.value)}
+                defaultValue={oldCookPrice}
+                fullWidth
+                type="number"
+              />
+
+              <TextField
+                fullWidth
+                defaultValue={oldCost}
+                error={costEmpty ? true : false}
+                type="number"
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                ) => {
+                  setCostEmty(false);
+                  setNewCost(+e.target.value);
+                }}
+                id={costEmpty ? "outlined-error" : "outlined-basic"}
+                label={
+                  costEmpty ? "Введите значение" : "Напишите стоимость еды"
+                }
+                variant="outlined"
+              />
+
+              <Button
+                onClick={changeFoodPrice}
+                sx={{ width: "100%" }}
+                variant="contained"
+                endIcon={<ChangeCircleIcon />}
+              >
+                Изменить цену
+              </Button>
+            </Box>
           </Box>
         </Fade>
       </Modal>

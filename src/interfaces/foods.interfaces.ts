@@ -5,6 +5,7 @@ export interface IFood {
   _id: string;
   name: string;
   cost: number;
+  cookCost: number;
   category: string;
   products: IProduct[];
 }
@@ -33,6 +34,7 @@ export interface IFoodById {
   _id: string;
   name: string;
   cost: number;
+  cookCost: number;
   category: IFoodByIdCtg;
   products: IFoodByIdProduct[];
   createdAt: string;
@@ -53,6 +55,8 @@ export interface IChangeFoodProps {
   changeOpen: boolean;
   setChangeOpen: React.Dispatch<React.SetStateAction<boolean>>;
   oldCost?: number;
+  oldCookPrice: number | undefined;
+  oldName: string;
   foodId: string;
 }
 
