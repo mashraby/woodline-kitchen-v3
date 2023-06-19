@@ -37,6 +37,7 @@ export const FoodById: React.FC = () => {
     _id: "",
     name: "",
     cost: 0,
+    cookCost: 0,
     category: {
       _id: "",
       name: "",
@@ -53,6 +54,8 @@ export const FoodById: React.FC = () => {
   const [amountOpen, setAmountOpen] = useState<boolean>(false);
   const [oldCost, setOldCost] = useState<number>();
   const [oldAmount, setOldAmount] = useState<number>();
+  const [oldName, setOldName] = useState<string>("");
+  const [oldCookPrice, setOldCookPrice] = useState<number>();
   const [prodId, setProdId] = useState<string>("");
   const [id, setId] = useState<string>("");
   const { reload, setReload } = useContext(ReloadContext);
@@ -62,6 +65,8 @@ export const FoodById: React.FC = () => {
     setChangeOpen(true);
     setOldCost(food.cost);
     setId(food._id);
+    setOldName(food.name);
+    setOldCookPrice(food.cookCost);
   };
 
   useEffect(() => {
@@ -117,6 +122,8 @@ export const FoodById: React.FC = () => {
         oldCost={oldCost}
         changeOpen={changeOpen}
         setChangeOpen={setChangeOpen}
+        oldCookPrice={oldCookPrice}
+        oldName={oldName}
       />
 
       <AddNewProductModal
@@ -222,6 +229,18 @@ export const FoodById: React.FC = () => {
                   }}
                 >
                   {food?.category.name}
+                </span>
+              </Typography>
+
+              <Typography variant="h5">
+                Для шеф-повара:{" "}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    color: "grey",
+                  }}
+                >
+                  {food?.cookCost}
                 </span>
               </Typography>
 
