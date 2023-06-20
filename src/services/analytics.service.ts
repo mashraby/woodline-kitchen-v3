@@ -34,14 +34,14 @@ export const todaysTushum = (
 };
 
 interface ChiqimDate {
-  start: string,
-  end: string
+  start: string;
+  end: string;
 }
 
 export interface ChiqimInt {
-  date: ChiqimDate,
-  orders: number
-  sum: number
+  date: ChiqimDate;
+  orders: number;
+  sum: number;
 }
 
 export const todaysChiqim = (
@@ -54,15 +54,20 @@ export const todaysChiqim = (
 };
 
 export interface FoydaInt {
-  date: ChiqimDate,
-  sum: number
+  date: ChiqimDate;
+  sum: number;
 }
 
-export const todaysFoyda = (
-  type: string,
-  date: number
-): Promise<FoydaInt> => {
+export const todaysFoyda = (type: string, date: number): Promise<FoydaInt> => {
   return instance
     .patch("/analitics/today/profit", { type, date })
+    .then((res: AxiosResponse) => res.data);
+};
+
+export const getAnalytics = (
+  type: string
+): Promise<AxiosResponse<{ labels: string[]; datasets: any[] }>> => {
+  return instance
+    .get(`/analitics/stats?type=${type}`)
     .then((res: AxiosResponse) => res.data);
 };
