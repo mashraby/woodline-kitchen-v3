@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  Typography,
 } from "@mui/material";
 import { ReloadContext } from "../../context/reload.context";
 import { IRole } from "../../interfaces/roles.interfaces";
@@ -18,6 +19,7 @@ import {
   ChiqimInt,
   FoydaInt,
   TodayTushum,
+  getAnalytics,
   todaysChiqim,
   todaysFoyda,
   todaysTushum,
@@ -34,8 +36,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -50,58 +52,25 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top' as const,
+      position: "top" as const,
     },
     title: {
       display: true,
-      text: 'Chart.js Bar Chart',
+      text: "Kitchen analytics",
     },
   },
-};
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [23, 90, 54, 67 , 77, 42, 99],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: [77, 64, 12, 59, 34, 81, 55],
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
 };
 
 export const StatsPage: React.FC = () => {
   const [roles, setRoles] = useState<IRole[]>([]);
   const { reload } = useContext(ReloadContext);
   const [type, setType] = useState<string>("day");
-
-  const [todayTushum, setTodayTushum] = useState<TodayTushum>({
-    date: "",
-    profit: 0,
-  });
-
-  const [todayChiqim, setTodayChiqim] = useState<ChiqimInt>({
-    date: {
-      start: "",
-      end: "",
-    },
-    orders: 0,
-    sum: 0,
-  });
-
-  const [todayFoyda, setTodayFoyda] = useState<FoydaInt>({
-    date: {
-      start: "",
-      end: "",
-    },
-    sum: 0,
+  const [ChartData, setChartData] = useState<{
+    labels: string[];
+    datasets: any[];
+  }>({
+    labels: [],
+    datasets: [],
   });
 
   useEffect(() => {
@@ -118,12 +87,11 @@ export const StatsPage: React.FC = () => {
       });
   }, [reload]);
 
-  const date = new Date();
-
   useEffect(() => {
-    todaysTushum(type, date.getTime()).then((data) => setTodayTushum(data));
-    todaysChiqim(type, date.getTime()).then((data) => setTodayChiqim(data));
-    todaysFoyda(type, date.getTime()).then((data) => setTodayFoyda(data));
+    getAnalytics(type).then((data) => {
+      setChartData(data as any);
+      console.log(data);
+    });
   }, [type]);
 
   return (
@@ -132,28 +100,36 @@ export const StatsPage: React.FC = () => {
       <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
         <Grid container spacing={8}>
           <Grid item xs={10}>
-            <Bar options={options} data={data} /> 
+            <Bar options={options} data={ChartData} />
           </Grid>
           <Grid item xs={2}>
-            <FormControl required sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-required-label">
-                Daily
-              </InputLabel>
-              <Select
-                defaultValue="day"
-                onChange={(e: SelectChangeEvent) => {
-                  setType(e.target.value);
-                }}
-                labelId="demo-simple-select-required-label"
-                id="demo-simple-select-required"
-                label="size *"
-              >
-                <MenuItem value={"day"}>Daily</MenuItem>
-                <MenuItem value={"week"}>Weekly</MenuItem>
-                <MenuItem value={"month"}>Monthly</MenuItem>
-                <MenuItem value={"year"}>Yearly</MenuItem>
-              </Select>
-            </FormControl>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "22px",
+              }}
+            >
+              <Typography variant="h6">ВАРИАНТЫ ФИЛЬТРА</Typography>
+              <FormControl required>
+                <InputLabel id="demo-simple-select-required-label">
+                  выбирать
+                </InputLabel>
+                <Select
+                  defaultValue="day"
+                  onChange={(e: SelectChangeEvent) => {
+                    setType(e.target.value);
+                  }}
+                  labelId="demo-simple-select-required-label"
+                  id="demo-simple-select-required"
+                  label="size *"
+                >
+                  <MenuItem value={"day"}>Ежедневно</MenuItem>
+                  <MenuItem value={"week"}>Еженедельно</MenuItem>
+                  <MenuItem value={"month"}>Ежемесячно</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </Grid>
         </Grid>
       </Box>
