@@ -99,7 +99,7 @@ export const StatsPage: React.FC = () => {
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
         <Grid mt={1} container spacing={8}>
-          <Grid item md={12} sm={12} lg={2}>
+          <Grid item xs={12} md={12} sm={12} lg={2}>
             <Box
               sx={{
                 display: "flex",
@@ -128,7 +128,7 @@ export const StatsPage: React.FC = () => {
               </FormControl>
             </Box>
           </Grid>
-          <Grid item md={12} sm={12} lg={10}>
+          <Grid item xs={12} md={12} sm={12} lg={10}>
             <Bar options={options} data={ChartData} />
           </Grid>
         </Grid>
