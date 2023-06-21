@@ -56,7 +56,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Kitchen analytics",
+      text: "Кухонная аналитика",
     },
   },
 };
@@ -98,11 +98,8 @@ export const StatsPage: React.FC = () => {
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-        <Grid container spacing={8}>
-          <Grid item xs={10}>
-            <Bar options={options} data={ChartData} />
-          </Grid>
-          <Grid item xs={2}>
+        <Grid mt={1} container spacing={8}>
+          <Grid item md={12} sm={12} lg={2}>
             <Box
               sx={{
                 display: "flex",
@@ -130,6 +127,9 @@ export const StatsPage: React.FC = () => {
                 </Select>
               </FormControl>
             </Box>
+          </Grid>
+          <Grid item md={12} sm={12} lg={10}>
+            <Bar options={options} data={ChartData} />
           </Grid>
         </Grid>
       </Box>
