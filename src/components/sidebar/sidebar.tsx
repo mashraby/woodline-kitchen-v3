@@ -113,7 +113,6 @@ export default function MiniDrawer(props: Props) {
         <Typography fontWeight={"bold"} variant="h6" noWrap component="div">
           Наша кухня
         </Typography>
-
         <RestaurantMenuIcon sx={{ fontSize: "32px", color: "#fff" }} />
       </Toolbar>
       <Divider />
@@ -214,6 +213,8 @@ export default function MiniDrawer(props: Props) {
             <ListItemText primary={"Платежи"} />
           </ListItemButton>
         </ListItem>
+
+export const MiniDrawer: React.FC = () => {
 
         <ListItem disablePadding>
           <ListItemButton
