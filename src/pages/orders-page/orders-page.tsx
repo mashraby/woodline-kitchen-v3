@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import {
@@ -56,9 +56,7 @@ export const OrdersPage: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
+        <MiniDrawer>
           <FlexWrapper>
             <Typography variant="h4" component="h2">
               Заказы
@@ -90,8 +88,7 @@ export const OrdersPage: React.FC = () => {
             count={totalPage}
             color="primary"
           />
-        </Box>
-      </Box>
+        </MiniDrawer>
     </>
   );
 };

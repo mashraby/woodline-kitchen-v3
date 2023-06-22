@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { IProduct } from "../../interfaces/products.interface";
 import { getProducts } from "../../services/api.service";
@@ -39,30 +39,18 @@ export const ProductsPage: React.FC = () => {
   return (
     <>
       <AddProductModal open={open} setOpen={setOpen} />
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-        <Box
-          component="main"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flexGrow: 1,
-            px: 3,
-            py: 12,
-          }}
-        >
-          <FlexWrapper>
-            <Typography variant="h4" component="h2">
-              Продукты
-            </Typography>
-            <Button onClick={() => setOpen(true)} variant="contained">
-              Добавить продукты
-            </Button>
-          </FlexWrapper>
+      <MiniDrawer>
+        <FlexWrapper>
+          <Typography variant="h4" component="h2">
+            Продукты
+          </Typography>
+          <Button onClick={() => setOpen(true)} variant="contained">
+            Добавить продукты
+          </Button>
+        </FlexWrapper>
 
-          <ProductsTable products={products} />
-        </Box>
-      </Box>
+        <ProductsTable products={products} />
+      </MiniDrawer>
     </>
   );
 };

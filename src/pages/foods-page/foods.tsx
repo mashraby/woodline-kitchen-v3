@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { getFoods } from "../../services/api.service";
 import Box from "@mui/material/Box";
@@ -41,9 +41,7 @@ export const FoodsPage: React.FC = () => {
   return (
     <>
       <AddFoodModal open={open} setOpen={setOpen} />
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
+        <MiniDrawer>
           <FlexWrapper>
             <Typography variant="h4" component="h2">
               Еда
@@ -57,8 +55,7 @@ export const FoodsPage: React.FC = () => {
             </Button>
           </FlexWrapper>
           <FoodsTable foods={foods} />
-        </Box>
-      </Box>
+        </MiniDrawer>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 import {
@@ -57,42 +57,37 @@ export const PaymentsPage: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-          <FlexWrapper>
-            <Typography variant="h4" component="h2">
-              Платежи
-            </Typography>
+      <MiniDrawer>
+        <FlexWrapper>
+          <Typography variant="h4" component="h2">
+            Платежи
+          </Typography>
 
-            <FormControl required sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-required-label">
-                size
-              </InputLabel>
-              <Select
-                defaultValue="10"
-                onChange={(e: SelectChangeEvent) => {
-                  setPageSize(+e.target.value);
-                }}
-                labelId="demo-simple-select-required-label"
-                id="demo-simple-select-required"
-                label="size *"
-              >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-              </Select>
-            </FormControl>
-          </FlexWrapper>
-          <PaymentsTable payments={payments} size={pageSize} page={page} />
-          <Pagination
-            onChange={handlePageChange}
-            sx={{ mt: 5, display: "flex", justifyContent: "center" }}
-            count={totalPage}
-            color="primary"
-          />
-        </Box>
-      </Box>
+          <FormControl required sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-required-label">size</InputLabel>
+            <Select
+              defaultValue="10"
+              onChange={(e: SelectChangeEvent) => {
+                setPageSize(+e.target.value);
+              }}
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              label="size *"
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+            </Select>
+          </FormControl>
+        </FlexWrapper>
+        <PaymentsTable payments={payments} size={pageSize} page={page} />
+        <Pagination
+          onChange={handlePageChange}
+          sx={{ mt: 5, display: "flex", justifyContent: "center" }}
+          count={totalPage}
+          color="primary"
+        />
+      </MiniDrawer>
     </>
   );
 };

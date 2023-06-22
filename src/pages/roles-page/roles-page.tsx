@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { IRole } from "../../interfaces/roles.interfaces";
 import { getRoles } from "../../services/api.service";
 import { RolesTable } from "../roles-page/roles-table/roles-table";
@@ -28,7 +28,7 @@ export const RolesPage: React.FC = () => {
     getRoles()
       .then((res: AxiosResponse) => {
         console.log(res);
-        
+
         setRoles(res.data);
       })
       .catch((err: AxiosError) => {
@@ -43,34 +43,21 @@ export const RolesPage: React.FC = () => {
   return (
     <>
       <AddRoleModal open={open} setOpen={setOpen} />
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-
-        <Box
-          component="main"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flexGrow: 1,
-            px: 3,
-            py: 12,
-          }}
-        >
-          <FlexWrapper>
-            <Typography variant="h4" component="h2">
-              Роли
-            </Typography>
-            <Button
-              onClick={() => setOpen(true)}
-              variant="contained"
-              endIcon={<AddCircleOutlineIcon />}
-            >
-              Добавить роль
-            </Button>
-          </FlexWrapper>
-          <RolesTable roles={roles} />
-        </Box>
-      </Box>
+      <MiniDrawer>
+        <FlexWrapper>
+          <Typography variant="h4" component="h2">
+            Роли
+          </Typography>
+          <Button
+            onClick={() => setOpen(true)}
+            variant="contained"
+            endIcon={<AddCircleOutlineIcon />}
+          >
+            Добавить роль
+          </Button>
+        </FlexWrapper>
+        <RolesTable roles={roles} />
+      </MiniDrawer>
     </>
   );
 };

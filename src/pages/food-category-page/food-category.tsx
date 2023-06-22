@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { getCategory } from "../../services/api.service";
 import Box from "@mui/material/Box";
@@ -41,24 +41,21 @@ export const FoodCategoryPage: React.FC = () => {
   return (
     <>
       <AddCategoryModal open={open} setOpen={setOpen} />
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-          <FlexWrapper>
-            <Typography variant="h4" component="h2">
-              Категория еды
-            </Typography>
-            <Button
-              onClick={(): void => setOpen(true)}
-              variant="contained"
-              endIcon={<AddCircleOutlineIcon />}
-            >
-              Добавить категорию
-            </Button>
-          </FlexWrapper>
-          <FoodCategoryTable categorys={categorys} />
-        </Box>
-      </Box>
+      <MiniDrawer>
+        <FlexWrapper>
+          <Typography variant="h4" component="h2">
+            Категория еды
+          </Typography>
+          <Button
+            onClick={(): void => setOpen(true)}
+            variant="contained"
+            endIcon={<AddCircleOutlineIcon />}
+          >
+            Добавить категорию
+          </Button>
+        </FlexWrapper>
+        <FoodCategoryTable categorys={categorys} />
+      </MiniDrawer>
     </>
   );
 };

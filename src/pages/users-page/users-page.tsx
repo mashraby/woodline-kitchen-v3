@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { IPerson } from "../../interfaces/users.interfaces";
 import {
@@ -67,9 +67,7 @@ export const UsersPage: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
+        <MiniDrawer>
           <FlexWrapper>
             <Typography variant="h4" component="h2">
               Пользователи
@@ -101,8 +99,7 @@ export const UsersPage: React.FC = () => {
             count={totalPage}
             color="primary"
           />
-        </Box>
-      </Box>
+        </MiniDrawer>
     </>
   );
 };

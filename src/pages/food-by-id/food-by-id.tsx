@@ -10,7 +10,7 @@ import { Box } from "@mui/system";
 import accounting from "accounting";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { IFood, IFoodById } from "../../interfaces/foods.interfaces";
 import { deleteProductById, foodById } from "../../services/api.service";
 import Divider from "@mui/material/Divider";
@@ -140,178 +140,160 @@ export const FoodById: React.FC = () => {
         setAmountOpen={setAmountOpen}
       />
 
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
-
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-          <Link
-            style={{ fontSize: "22px", marginBottom: "15px" }}
-            to={`/foods`}
-          >
-            {"< Назад"}
-          </Link>
+      <MiniDrawer>
+        <Link style={{ fontSize: "22px", marginBottom: "15px" }} to={`/foods`}>
+          {"< Назад"}
+        </Link>
+        <Box
+          sx={{
+            m: 4,
+            p: 4,
+            w: 1,
+            minHeight: "65vh",
+            display: "flex",
+            alignItems: "baseline",
+            gap: "100px",
+            boxShadow: "5px 5px 70px rgba(0, 0, 0, 0.14)",
+            borderRadius: "16px",
+          }}
+        >
           <Box
             sx={{
-              m: 4,
               p: 4,
-              w: 1,
-              minHeight: "65vh",
               display: "flex",
-              alignItems: "baseline",
-              gap: "100px",
-              boxShadow: "5px 5px 70px rgba(0, 0, 0, 0.14)",
-              borderRadius: "16px",
+              flexDirection: "column",
+              gap: "15px",
+              boxShadow: "5px 5px 50px rgba(0, 0, 0, 0.14)",
+              fontSize: "22px",
             }}
           >
-            <Box
-              sx={{
-                p: 4,
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-                boxShadow: "5px 5px 50px rgba(0, 0, 0, 0.14)",
-                fontSize: "22px",
-              }}
-            >
-              <Typography variant="h5" component="h2">
-                Название еды:{" "}
-                <span
-                  style={{
-                    fontStyle: "italic",
-                    color: "grey",
-                  }}
-                >
-                  {food?.name}
-                </span>
-              </Typography>
-
-              <Typography variant="h5" component="h2">
-                Стоимость еды:{" "}
-                <span
-                  style={{
-                    fontStyle: "italic",
-                    color: "grey",
-                  }}
-                >
-                  {accounting.formatNumber(food?.cost, 0, " ") + " so'm"}
-                </span>
-              </Typography>
-
-              <Typography variant="h5" component="h2">
-                Изначальная цена:{" "}
-                <span
-                  style={{
-                    fontStyle: "italic",
-                    color: "grey",
-                  }}
-                >
-                  {accounting.formatNumber(prc, 0, " ") + " so'm"}
-                </span>
-              </Typography>
-
-              <Typography variant="h5" component="h2">
-                {food.cost - prc > 0 ? "Выгода" : "Вред"}:{" "}
-                <span
-                  style={{
-                    fontStyle: "italic",
-                    color: "grey",
-                  }}
-                >
-                  {accounting.formatNumber(food.cost - prc, 0, " ") + " so'm"}
-                </span>
-              </Typography>
-              <Typography variant="h5" component="h2">
-                Категория еды:{" "}
-                <span
-                  style={{
-                    fontStyle: "italic",
-                    color: "grey",
-                  }}
-                >
-                  {food?.category.name}
-                </span>
-              </Typography>
-
-              <Typography variant="h5">
-                Для шеф-повара:{" "}
-                <span
-                  style={{
-                    fontStyle: "italic",
-                    color: "grey",
-                  }}
-                >
-                  {food?.cookCost}
-                </span>
-              </Typography>
-
-              <Button
-                onClick={() => handleChangeClick(food)}
-                variant="contained"
-              >
-                Изменить стоимость
-              </Button>
-            </Box>
-            <Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "25px",
-                  mb: 4,
+            <Typography variant="h5" component="h2">
+              Название еды:{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  color: "grey",
                 }}
               >
-                <Typography variant="h4" component="h2">
-                  Продукт питания
-                </Typography>
-                <Button
-                  onClick={() => setNewProdOpen(true)}
-                  variant="contained"
-                >
-                  Добавить продукт
-                </Button>
-              </Box>
-              <Grid item xs={12} md={6}>
-                <List sx={style} component="nav" aria-label="mailbox folders">
-                  {food?.products.map((prod: any) => {
-                    return (
-                      <>
-                        <ListItem
-                          key={prod._id}
-                          sx={{
-                            display: "flex",
-                            gap: "20px",
-                          }}
-                        >
-                          <ListItemText primary={prod.product?.name} />
-                          <ListItemText
-                            ref={editableRef}
-                            primary={prod.amount}
-                          />
-                          <Button
-                            onClick={() =>
-                              EditProduct(prod.product._id, prod.amount)
-                            }
-                          >
-                            <EditIcon />
-                          </Button>
-                          <Button
-                            onClick={() =>
-                              handleDeleteProduct(prod.product._id)
-                            }
-                          >
-                            <DeleteIcon />
-                          </Button>
-                        </ListItem>
-                        <Divider />
-                      </>
-                    );
-                  })}
-                </List>
-              </Grid>
+                {food?.name}
+              </span>
+            </Typography>
+
+            <Typography variant="h5" component="h2">
+              Стоимость еды:{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  color: "grey",
+                }}
+              >
+                {accounting.formatNumber(food?.cost, 0, " ") + " so'm"}
+              </span>
+            </Typography>
+
+            <Typography variant="h5" component="h2">
+              Изначальная цена:{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  color: "grey",
+                }}
+              >
+                {accounting.formatNumber(prc, 0, " ") + " so'm"}
+              </span>
+            </Typography>
+
+            <Typography variant="h5" component="h2">
+              {food.cost - prc > 0 ? "Выгода" : "Вред"}:{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  color: "grey",
+                }}
+              >
+                {accounting.formatNumber(food.cost - prc, 0, " ") + " so'm"}
+              </span>
+            </Typography>
+            <Typography variant="h5" component="h2">
+              Категория еды:{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  color: "grey",
+                }}
+              >
+                {food?.category.name}
+              </span>
+            </Typography>
+
+            <Typography variant="h5">
+              Для шеф-повара:{" "}
+              <span
+                style={{
+                  fontStyle: "italic",
+                  color: "grey",
+                }}
+              >
+                {food?.cookCost}
+              </span>
+            </Typography>
+
+            <Button onClick={() => handleChangeClick(food)} variant="contained">
+              Изменить стоимость
+            </Button>
+          </Box>
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "25px",
+                mb: 4,
+              }}
+            >
+              <Typography variant="h4" component="h2">
+                Продукт питания
+              </Typography>
+              <Button onClick={() => setNewProdOpen(true)} variant="contained">
+                Добавить продукт
+              </Button>
             </Box>
+            <Grid item xs={12} md={6}>
+              <List sx={style} component="nav" aria-label="mailbox folders">
+                {food?.products.map((prod: any) => {
+                  return (
+                    <>
+                      <ListItem
+                        key={prod._id}
+                        sx={{
+                          display: "flex",
+                          gap: "20px",
+                        }}
+                      >
+                        <ListItemText primary={prod.product?.name} />
+                        <ListItemText ref={editableRef} primary={prod.amount} />
+                        <Button
+                          onClick={() =>
+                            EditProduct(prod.product._id, prod.amount)
+                          }
+                        >
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          onClick={() => handleDeleteProduct(prod.product._id)}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </ListItem>
+                      <Divider />
+                    </>
+                  );
+                })}
+              </List>
+            </Grid>
           </Box>
         </Box>
-      </Box>
+      </MiniDrawer>
     </>
   );
 };

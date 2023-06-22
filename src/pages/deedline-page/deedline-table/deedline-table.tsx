@@ -16,8 +16,8 @@ import { useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -36,13 +36,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
   const deedlines: IDeedline[] = props.deedlines as any;
-  const [open, setOpen] = useState<boolean>(false)
-  const [oldTime, setOldTime] = useState<number>()
-  const [id, setId] = useState<string>("")
+  const [open, setOpen] = useState<boolean>(false);
+  const [oldTime, setOldTime] = useState<number>();
+  const [id, setId] = useState<string>("");
 
   return (
     <>
-      <ChangeDeedModal deedId={id} time={oldTime} open={open} setOpen={setOpen} />
+      <ChangeDeedModal
+        deedId={id}
+        time={oldTime}
+        open={open}
+        setOpen={setOpen}
+      />
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -61,11 +66,16 @@ export const DeedlineTable: React.FC<IDeedlineProps> = (props) => {
                 </StyledTableCell>
                 <StyledTableCell>{deed.time + " minut"}</StyledTableCell>
                 <StyledTableCell>
-                  <Button onClick={() => {
-                    setOldTime(deed.time)
-                    setId(deed._id)
-                    setOpen(!open)
-                  }} variant="outlined">Изменить</Button>
+                  <Button
+                    onClick={() => {
+                      setOldTime(deed.time);
+                      setId(deed._id);
+                      setOpen(!open);
+                    }}
+                    variant="outlined"
+                  >
+                    Изменить
+                  </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
