@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Box } from "@mui/system";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import {
   FormControl,
   Grid,
@@ -95,44 +95,54 @@ export const StatsPage: React.FC = () => {
   }, [type]);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <MiniDrawer />
-      <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-        <Grid mt={1} container spacing={8}>
-          <Grid item xs={12} md={12} sm={12} lg={2}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "22px",
-              }}
+    <MiniDrawer>
+      <Grid container spacing={{ xs: 1, sm: 2, md: 4, lg: 8 }}>
+        <Grid item xs={12} md={12} sm={12} lg={2}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: {
+                xs: "12px",
+                sm: "16px",
+                md: "18px",
+                lg: "20px",
+                xlg: "22px",
+              },
+            }}
+          >
+            <Typography
+              variant="h6"
+              fontSize={{ xs: "18px" }}
+              fontWeight={{ xs: "bold" }}
             >
-              <Typography variant="h6">ВАРИАНТЫ ФИЛЬТРА</Typography>
-              <FormControl required>
-                <InputLabel id="demo-simple-select-required-label">
-                  выбирать
-                </InputLabel>
-                <Select
-                  defaultValue="day"
-                  onChange={(e: SelectChangeEvent) => {
-                    setType(e.target.value);
-                  }}
-                  labelId="demo-simple-select-required-label"
-                  id="demo-simple-select-required"
-                  label="size *"
-                >
-                  <MenuItem value={"day"}>Ежедневно</MenuItem>
-                  <MenuItem value={"week"}>Еженедельно</MenuItem>
-                  <MenuItem value={"month"}>Ежемесячно</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={12} sm={12} lg={10}>
-            <Bar options={options} data={ChartData} />
-          </Grid>
+              ВАРИАНТЫ ФИЛЬТРА
+            </Typography>
+            <FormControl required>
+              <InputLabel id="demo-simple-select-required-label">
+                выбирать
+              </InputLabel>
+              <Select
+                size={"small"}
+                defaultValue="day"
+                onChange={(e: SelectChangeEvent) => {
+                  setType(e.target.value);
+                }}
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                label="size *"
+              >
+                <MenuItem value={"day"}>Ежедневно</MenuItem>
+                <MenuItem value={"week"}>Еженедельно</MenuItem>
+                <MenuItem value={"month"}>Ежемесячно</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </Grid>
-      </Box>
-    </Box>
+        <Grid item xs={12} md={12} sm={12} lg={10}>
+          <Bar options={options} data={ChartData} />
+        </Grid>
+      </Grid>
+    </MiniDrawer>
   );
 };

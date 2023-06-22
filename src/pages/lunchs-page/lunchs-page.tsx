@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 
 // My Components
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { ILunch } from "../../interfaces/lunchs.interfaces";
 import { getLunchs } from "../../services/api.service";
 import { LunchsTable } from "./lunchs-table/lunchs-table";
@@ -30,17 +30,13 @@ export const LunchsPage: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
+      <MiniDrawer>
+        <Typography sx={{ my: 2 }} variant="h4" component="h2">
+          Обеды
+        </Typography>
 
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-          <Typography sx={{ my: 2 }} variant="h4" component="h2">
-            Обеды
-          </Typography>
-
-          <LunchsTable lunchs={lunchs} />
-        </Box>
-      </Box>
+        <LunchsTable lunchs={lunchs} />
+      </MiniDrawer>
     </>
   );
 };

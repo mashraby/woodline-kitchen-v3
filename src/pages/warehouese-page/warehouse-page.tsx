@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import styled from "styled-components";
-import { MiniDrawer } from "../../components/sidebar/sidebar";
+import MiniDrawer from "../../components/sidebar/sidebar";
 import { IWarehouse } from "../../interfaces/warehouse.interface";
 import { getWarehouses } from "../../services/api.service";
 import { WareHouseTable } from "./warehouse-table/warehouse-table";
@@ -42,27 +42,23 @@ export const WareHousePage: React.FC = () => {
     <>
       <AddWarehouseModal open={open} setOpen={setOpen} />
 
-      <Box sx={{ display: "flex" }}>
-        <MiniDrawer />
+      <MiniDrawer>
+        <FlexWrapper>
+          <Typography variant="h4" component="h2">
+            Инвентаризация
+          </Typography>
 
-        <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
-          <FlexWrapper>
-            <Typography variant="h4" component="h2">
-              Инвентаризация
-            </Typography>
+          <Button
+            onClick={() => setOpen(true)}
+            variant="contained"
+            endIcon={<AddCircleOutlineIcon />}
+          >
+            Добавить Инвентаризация
+          </Button>
+        </FlexWrapper>
 
-            <Button
-              onClick={() => setOpen(true)}
-              variant="contained"
-              endIcon={<AddCircleOutlineIcon />}
-            >
-              Добавить Инвентаризация
-            </Button>
-          </FlexWrapper>
-
-          <WareHouseTable warehouses={warehouses} />
-        </Box>
-      </Box>
+        <WareHouseTable warehouses={warehouses} />
+      </MiniDrawer>
     </>
   );
 };
