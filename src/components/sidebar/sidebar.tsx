@@ -343,7 +343,6 @@ export const MiniDrawer: React.FC = () => {
         }}
       >
         <Toolbar />
-
         {props.children}
       </Box>
     </Box>
