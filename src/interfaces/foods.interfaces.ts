@@ -34,7 +34,7 @@ export interface IFoodById {
   _id: string;
   name: string;
   cost: number;
-  cookCost: number;
+  cook_percent: number;
   category: IFoodByIdCtg;
   products: IFoodByIdProduct[];
   createdAt: string;

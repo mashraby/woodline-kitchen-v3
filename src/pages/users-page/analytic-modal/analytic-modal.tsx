@@ -73,12 +73,12 @@ export const AnalyticModal: React.FC<AnalyticModalProps> = (props) => {
               </Typography>
               <Typography variant="h5" style={{ display: "flex", gap: "10px" }}>
                 <Box fontWeight={"bold"}>summa:</Box>{" "}
-                {accounting.formatNumber(anUser?.profit, 0, " ")} so'm
+                {accounting.formatNumber(anUser?.profit, 0, " ")} сум
               </Typography>
               <Typography variant="h5" style={{ display: "flex", gap: "10px" }}>
                 <Box fontWeight={"bold"}>now summa:</Box>{" "}
                 {accounting.formatNumber(anUser?.user?.balance ?? 0, 0, " ")}{" "}
-                so'm
+                сум
               </Typography>
             </Box>
 
@@ -106,7 +106,7 @@ export const AnalyticModal: React.FC<AnalyticModalProps> = (props) => {
                         }}
                       >
                         <TableCell align="left">22 - april</TableCell>
-                        <TableCell align="left">12 000 so'm</TableCell>
+                        <TableCell align="left">12 000 сум</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

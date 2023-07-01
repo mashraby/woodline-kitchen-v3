@@ -64,7 +64,7 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             variant="h6"
             component="h2"
           >
-            {"Balance: " + accounting.formatNumber(balance, 0, " ") + " so'm"}
+            {"Balance: " + accounting.formatNumber(balance, 0, " ") + " сум"}
           </Typography>
           <TextField
             error={empty ? true : false}

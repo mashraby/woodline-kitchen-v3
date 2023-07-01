@@ -35,22 +35,27 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
 
   const changeFoodPrice = (): void => {
     // if (newCost !== undefined) {
-      setReload(!reload);
-      updateFoodPrice(foodId, newCost, newCookCost, newName)
-        .then((data) => {
-          if (data && data.status === 200) {
-            toast.success("Food narxi o'zgartirildi");
-          }
-        })
-        .catch((err) => {
-          if (err) {
-            toast.error("Muammo yuz berdi qayta urinib koring");
-          }
-        })
-        .finally(() => {
-          setNewCost(undefined);
-          setChangeOpen(false);
-        });
+    setReload(!reload);
+    updateFoodPrice(foodId, newCost, newCookCost, newName)
+      .then((data) => {
+        if (data && data.status === 200) {
+          console.log(data, newName);
+
+          toast.success("Food narxi o'zgartirildi");
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+          console.log(foodId);
+
+          toast.error("Muammo yuz berdi qayta urinib koring");
+        }
+      })
+      .finally(() => {
+        setNewCost(undefined);
+        setChangeOpen(false);
+      });
     // } else {
     //   toast.warning("Hali ovqat narxini o'zgartirmadingiz");
     // }
@@ -79,9 +84,6 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
               }}
             >
               <Typography
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewName(e.target.value)
-                }
                 sx={{ textAlign: "center" }}
                 variant="h4"
                 component="div"
@@ -89,8 +91,17 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
                 Изменить цену
               </Typography>
 
-              <TextField defaultValue={oldName} fullWidth type="text" />
               <TextField
+                label="изменить название еды"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewName(e.target.value)
+                }
+                defaultValue={oldName}
+                fullWidth
+                type="text"
+              />
+              <TextField
+                label={"для повара"}
                 onChange={(e) => setCookNewCost(+e.target.value)}
                 defaultValue={oldCookPrice}
                 fullWidth

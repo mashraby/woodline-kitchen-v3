@@ -119,12 +119,16 @@ export const getFoods = (): Promise<Array<IFood>> => {
 export const postFood = (
   name: string,
   cost: number | undefined,
+  cook_percent: number,
+  products_cost: number,
   category: string,
   products: Array<ICreateProduct>
 ): Promise<AxiosResponse> => {
-  return instance.post("/food/withproduct", {
+  return instance.post("/food", {
     name,
     cost,
+    cook_percent,
+    products_cost,
     category,
     products,
   });
@@ -133,20 +137,19 @@ export const postFood = (
 export const updateFoodPrice = (
   id: string,
   cost: number | undefined,
-  cookCost: number | undefined,
+  cook_percent: number | undefined,
   name: string
 ): Promise<AxiosResponse> => {
-  return instance.put("/food", {
-    id,
+  return instance.put(`/food/${id}`, {
     cost,
-    cookCost,
-    name
+    cook_percent,
+    name,
   });
 };
 
 export const foodById = (id: string): Promise<IFoodById> => {
   return instance
-    .get(`/food/order/${id}`)
+    .get(`/food/${id}`)
     .then((res: AxiosResponse) => res.data);
 };
 

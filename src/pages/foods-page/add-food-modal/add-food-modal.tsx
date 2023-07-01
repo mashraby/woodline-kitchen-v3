@@ -8,6 +8,7 @@ import SendIcon from "@mui/icons-material/Send";
 import {
   Autocomplete,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -55,6 +56,7 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
   const [ctgEmpty, setCtgEmty] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [cost, setCost] = useState<number>(0);
+  const [cookPercent, setCookPercent] = useState<number>(0);
   const [selectedCtg, setSelectedCtg] = React.useState("");
   const [products, setProducts] = useState<Array<IProduct>>([]);
   const [inputs, setInputs] = useState<Array<IInputProps>>([
@@ -92,11 +94,15 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
       postFood(
         name,
         cost,
+        cookPercent,
+        sumMoney + cookPercent,
         selectedCtg,
         inputs[0].product !== "" ? [...inputs] : []
       )
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
+              console.log(res);
+              
             toast.success("Food yaratildi!");
           }
         })
@@ -117,6 +123,8 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
         })
         .catch((err: AxiosError) => {
           if (err) {
+              console.log(err);
+              
             toast.error("Food yaratilmadi qayta urinib ko'ring!");
           }
         });
@@ -157,16 +165,17 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
         <Fade in={open}>
           <Box sx={style}>
             <Typography
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center", mb: 3 }}
               variant="h4"
               component="div"
             >
               Добавить еду
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
-              <Box
+            <Grid container spacing={3}>
+              <Grid
+                item
+                xs={6}
                 sx={{
-                  mt: 3,
                   width: "300px",
                   display: "flex",
                   flexDirection: "column",
@@ -185,23 +194,9 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                     nameEmpty ? "Введите значение" : "Напишите название еды"
                   }
                   variant="outlined"
+                  sx={{ mb: 2 }}
                 />
-                <TextField
-                  error={costEmpty ? true : false}
-                  type="number"
-                  onChange={(
-                    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-                  ) => {
-                    setCostEmty(false);
-                    setCost(+e.target.value);
-                  }}
-                  sx={{ my: 2 }}
-                  id={costEmpty ? "outlined-error" : "outlined-basic"}
-                  label={
-                    costEmpty ? "Введите значение" : "Напишите стоимость еды"
-                  }
-                  variant="outlined"
-                />
+
                 <FormControl sx={{ mb: 2 }}>
                   <InputLabel
                     id={
@@ -238,15 +233,47 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       })}
                   </Select>
                 </FormControl>
+
+                <TextField
+                  onChange={(e) => {
+                    setCookPercent(+e.target.value);
+                  }}
+                  label="процент для повара"
+                  type="number"
+                />
+
+                <TextField
+                  error={costEmpty ? true : false}
+                  type="number"
+                  onChange={(
+                    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                  ) => {
+                    setCostEmty(false);
+                    setCost(+e.target.value);
+                  }}
+                  sx={{ my: 2 }}
+                  id={costEmpty ? "outlined-error" : "outlined-basic"}
+                  label={
+                    costEmpty ? "Введите значение" : "Напишите стоимость еды"
+                  }
+                  variant="outlined"
+                />
+
                 <Typography sx={{ mb: 1 }} variant="h5">
-                  Цена тела: {accounting.formatNumber(cost, 0, " ") + " so'm"}
+                  Общая стоимость:{" "}
+                  {accounting.formatNumber(cost, 0, " ") + " сум"}
+                </Typography>
+                <Typography sx={{ mb: 1 }} variant="h5">
+                  Цена тела:{" "}
+                  {accounting.formatNumber(sumMoney + cookPercent, 0, " ") +
+                    " сум"}
                 </Typography>
                 <Typography sx={{ mb: 3 }} variant="h5">
                   Общая стоимость:{" "}
-                  {accounting.formatNumber(sumMoney, 0, " ") + " so'm"}
+                  {accounting.formatNumber(cookPercent, 0, " ") + " сум"}
                 </Typography>
-              </Box>
-              <Box>
+              </Grid>
+              <Grid item xs={6}>
                 <Button
                   onClick={() => {
                     setInputs([
@@ -258,8 +285,8 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       },
                     ]);
                   }}
-                  sx={{ my: "15px" }}
                   variant="outlined"
+                  sx={{ mb: 3 }}
                   fullWidth
                 >
                   добавить больше продуктов +
@@ -328,8 +355,8 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                       </Box>
                     ))}
                 </Box>
-              </Box>
-            </Box>
+              </Grid>
+            </Grid>
             <Button
               onClick={handlePostFood}
               sx={{ width: "100%" }}

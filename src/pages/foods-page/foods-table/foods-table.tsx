@@ -68,7 +68,7 @@ export const FoodsTable: React.FC<IFoodProps> = (props) => {
                     </StyledTableCell>
                     <StyledTableCell>{food.name}</StyledTableCell>
                     <StyledTableCell>
-                      {accounting.formatNumber(food.cost, 0, " ") + " so'm"}
+                      {accounting.formatNumber(food.cost, 0, " ") + " сум"}
                     </StyledTableCell>
                     <StyledTableCell>
                       {ctgs.find((c) => c._id === food.category)?.name}

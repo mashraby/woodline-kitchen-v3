@@ -59,7 +59,7 @@ export const LunchsTable: React.FC<ILunchsProps> = (props) => {
                     lunch.food?.cost ? lunch.food?.cost : 0,
                     0,
                     " "
-                  ) + " so'm"}
+                  ) + " сум"}
                 </StyledTableCell>
                 <StyledTableCell>{lunch.agree_users.length}</StyledTableCell>
                 <StyledTableCell>{lunch.disagree.length}</StyledTableCell>
