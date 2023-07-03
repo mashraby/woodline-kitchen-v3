@@ -17,7 +17,6 @@ import Paper from "@mui/material/Paper";
 import {
   Button,
   FormControlLabel,
-  IconButton,
   Menu,
   MenuItem,
   Switch,
@@ -26,9 +25,7 @@ import {
 import accounting from "accounting";
 import { updateUserStatus } from "../../../services/api.service";
 import { ReloadContext } from "../../../context/reload.context";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { ChangeUserNameModal } from "../change-name-modal/change-modal";
-import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/system";
 import { AnalyticModal } from "../analytic-modal/analytic-modal";
@@ -232,7 +229,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
       />
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <Table aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>ИД</StyledTableCell>
@@ -255,7 +252,7 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
                 <StyledTableCell>{user.telegram_id}</StyledTableCell>
                 <StyledTableCell>{user.phone_number}</StyledTableCell>
                 <StyledTableCell>
-                  {accounting.formatNumber(user.balance, 0, " ") + " so'm"}
+                  {accounting.formatNumber(user.balance, 0, " ") + " сум"}
                 </StyledTableCell>
                 <StyledTableCell>
                   {user.role === null ? "No role" : user.role.title}

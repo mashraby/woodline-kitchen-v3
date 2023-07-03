@@ -87,6 +87,12 @@ export const updateUsername = (
   });
 };
 
+export const OneUserAnalytics = (type: string, id: string): Promise<any> => {
+  return instance
+    .get(`/analitics/user?type=${type}&id=${id}`)
+    .then((res: AxiosResponse) => res.data);
+};
+
 // Roles Service //
 export const getRoles = (): Promise<AxiosResponse> => {
   return instance.get("/role").then((res: AxiosResponse) => res);
@@ -119,12 +125,16 @@ export const getFoods = (): Promise<Array<IFood>> => {
 export const postFood = (
   name: string,
   cost: number | undefined,
+  cook_percent: number,
+  products_cost: number,
   category: string,
   products: Array<ICreateProduct>
 ): Promise<AxiosResponse> => {
-  return instance.post("/food/withproduct", {
+  return instance.post("/food", {
     name,
     cost,
+    cook_percent,
+    products_cost,
     category,
     products,
   });
@@ -133,20 +143,23 @@ export const postFood = (
 export const updateFoodPrice = (
   id: string,
   cost: number | undefined,
-  cookCost: number | undefined,
+  cook_percent: number | undefined,
   name: string
 ): Promise<AxiosResponse> => {
-  return instance.put("/food", {
-    id,
+  return instance.put(`/food/${id}`, {
     cost,
-    cookCost,
-    name
+    cook_percent,
+    name,
   });
 };
 
 export const foodById = (id: string): Promise<IFoodById> => {
+  return instance.get(`/food/${id}`).then((res: AxiosResponse) => res.data);
+};
+
+export const searchFood = (name: string): Promise<IFood[]> => {
   return instance
-    .get(`/food/order/${id}`)
+    .get(`/food/search?name=${name}`)
     .then((res: AxiosResponse) => res.data);
 };
 
@@ -260,6 +273,12 @@ export const putProductAmount = (
   });
 };
 
+export const searchProduct = (value: string): Promise<IProduct[]> => {
+  return instance
+    .get(`/product/search?name=${value}`)
+    .then((res: AxiosResponse) => res.data);
+};
+
 // Lunchs Service //
 
 export const getLunchs = (): Promise<Array<ILunch>> => {
@@ -292,4 +311,10 @@ export const postWarehouseTake = (
     amount,
     type,
   });
+};
+
+export const searchWarehouse = (value: string): Promise<IWarehouse[]> => {
+  return instance
+    .get(`/warehouse/search?product=${value}`)
+    .then((res: AxiosResponse) => res.data);
 };

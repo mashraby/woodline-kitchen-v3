@@ -4,10 +4,12 @@ import styled from "styled-components";
 import MiniDrawer from "../../components/sidebar/sidebar";
 import { ReloadContext } from "../../context/reload.context";
 import { IProduct } from "../../interfaces/products.interface";
-import { getProducts } from "../../services/api.service";
+import { getProducts, searchProduct } from "../../services/api.service";
 import { AddProductModal } from "./add-product-modal/add-product-modal";
 import { ProductsTable } from "./products-table/products-table";
 import { AxiosError } from "axios";
+import { SearchContext } from "../../context/search.context";
+import { useLocation } from "react-router-dom";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -21,20 +23,24 @@ export const ProductsPage: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [products, setProducts] = useState<Array<IProduct>>([]);
   const { reload } = useContext(ReloadContext);
+  const { searchValue } = useContext(SearchContext);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    getProducts()
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err: AxiosError) => {
-        if (err.response?.status === 401) {
-          window.localStorage.removeItem("token");
-          window.location.reload();
-          window.location.href = "/login";
-        }
-      });
-  }, [reload]);
+    pathname === "/products" && searchValue !== ""
+      ? searchProduct(searchValue).then((data) => setProducts(data))
+      : getProducts()
+          .then((data) => {
+            setProducts(data);
+          })
+          .catch((err: AxiosError) => {
+            if (err.response?.status === 401) {
+              window.localStorage.removeItem("token");
+              window.location.reload();
+              window.location.href = "/login";
+            }
+          });
+  }, [reload, searchValue]);
 
   return (
     <>

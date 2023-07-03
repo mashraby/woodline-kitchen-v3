@@ -28,14 +28,12 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
 
   const handleChangeBalance = (): void => {
     if (changeBalance !== undefined) {
-      postBalance(userId, changeBalance, true)
-        .then((res) => console.log(res))
-        .finally((): void => {
-          setChangeBalance(undefined);
-          setOpen(false);
-          setReload(!reload);
-          toast.success("Balance qo'shildi");
-        });
+      postBalance(userId, changeBalance, true).finally((): void => {
+        setChangeBalance(undefined);
+        setOpen(false);
+        setReload(!reload);
+        toast.success("Balance qo'shildi");
+      });
     } else {
       setEmpty(true);
     }
@@ -64,7 +62,7 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
             variant="h6"
             component="h2"
           >
-            {"Balance: " + accounting.formatNumber(balance, 0, " ") + " so'm"}
+            {"Balance: " + accounting.formatNumber(balance, 0, " ") + " сум"}
           </Typography>
           <TextField
             error={empty ? true : false}

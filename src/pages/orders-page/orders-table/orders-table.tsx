@@ -83,7 +83,7 @@ export const OrdersTable: React.FC<IOrdersProps> = (props) => {
                   }
                 </StyledTableCell>
                 <StyledTableCell>
-                  {accounting.formatNumber(order.total_cost, 0, " ") + " so'm"}
+                  {accounting.formatNumber(order.total_cost, 0, " ") + " сум"}
                 </StyledTableCell>
                 <StyledTableCell>
                   <span

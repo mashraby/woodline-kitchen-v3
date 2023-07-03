@@ -279,7 +279,20 @@ export default function MiniDrawer(props: Props) {
             <MenuIcon />
           </IconButton>
           <FlexWrapper>
-            <Search>
+            <Search
+              sx={{
+                display:
+                  pathname === "/" ||
+                  pathname === "/roles" ||
+                  pathname === "/food-category" ||
+                  pathname === "/lunchs" ||
+                  pathname === "/orders" ||
+                  pathname === "/payments" ||
+                  pathname === "/deedline"
+                    ? "none"
+                    : "",
+              }}
+            >
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -341,7 +354,6 @@ export default function MiniDrawer(props: Props) {
         }}
       >
         <Toolbar />
-
         {props.children}
       </Box>
     </Box>

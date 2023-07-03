@@ -4,6 +4,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Paper,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -37,7 +38,7 @@ export const FoodById: React.FC = () => {
     _id: "",
     name: "",
     cost: 0,
-    cookCost: 0,
+    cook_percent: 0,
     category: {
       _id: "",
       name: "",
@@ -66,7 +67,7 @@ export const FoodById: React.FC = () => {
     setOldCost(food.cost);
     setId(food._id);
     setOldName(food.name);
-    setOldCookPrice(food.cookCost);
+    setOldCookPrice(food.cook_percent);
   };
 
   useEffect(() => {
@@ -145,6 +146,7 @@ export const FoodById: React.FC = () => {
           {"< Назад"}
         </Link>
         <Box
+          component={Paper}
           sx={{
             m: 4,
             p: 4,
@@ -153,17 +155,17 @@ export const FoodById: React.FC = () => {
             display: "flex",
             alignItems: "baseline",
             gap: "100px",
-            boxShadow: "5px 5px 70px rgba(0, 0, 0, 0.14)",
             borderRadius: "16px",
           }}
         >
           <Box
+            component={Paper}
+            elevation={3}
             sx={{
               p: 4,
               display: "flex",
               flexDirection: "column",
               gap: "15px",
-              boxShadow: "5px 5px 50px rgba(0, 0, 0, 0.14)",
               fontSize: "22px",
             }}
           >
@@ -187,7 +189,7 @@ export const FoodById: React.FC = () => {
                   color: "grey",
                 }}
               >
-                {accounting.formatNumber(food?.cost, 0, " ") + " so'm"}
+                {accounting.formatNumber(food?.cost, 0, " ") + " сум"}
               </span>
             </Typography>
 
@@ -199,7 +201,7 @@ export const FoodById: React.FC = () => {
                   color: "grey",
                 }}
               >
-                {accounting.formatNumber(prc, 0, " ") + " so'm"}
+                {accounting.formatNumber(prc, 0, " ") + " сум"}
               </span>
             </Typography>
 
@@ -211,7 +213,7 @@ export const FoodById: React.FC = () => {
                   color: "grey",
                 }}
               >
-                {accounting.formatNumber(food.cost - prc, 0, " ") + " so'm"}
+                {accounting.formatNumber(food.cost - prc, 0, " ") + " сум"}
               </span>
             </Typography>
             <Typography variant="h5" component="h2">
@@ -234,7 +236,7 @@ export const FoodById: React.FC = () => {
                   color: "grey",
                 }}
               >
-                {food?.cookCost}
+                {accounting.formatNumber(food?.cook_percent, 0, " ")} сум
               </span>
             </Typography>
 

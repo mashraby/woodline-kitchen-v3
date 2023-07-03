@@ -4,12 +4,14 @@ import { Box } from "@mui/system";
 import styled from "styled-components";
 import MiniDrawer from "../../components/sidebar/sidebar";
 import { IWarehouse } from "../../interfaces/warehouse.interface";
-import { getWarehouses } from "../../services/api.service";
+import { getWarehouses, searchWarehouse } from "../../services/api.service";
 import { WareHouseTable } from "./warehouse-table/warehouse-table";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AddWarehouseModal } from "./add-modal/add-modal";
 import { ReloadContext } from "../../context/reload.context";
 import { AxiosError } from "axios";
+import { SearchContext } from "../../context/search.context";
+import { useLocation } from "react-router-dom";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -23,20 +25,24 @@ export const WareHousePage: React.FC = () => {
   const [warehouses, setWarehouses] = useState<Array<IWarehouse>>([]);
   const [open, setOpen] = useState<boolean>(false);
   const { reload } = useContext(ReloadContext);
+  const { searchValue } = useContext(SearchContext);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    getWarehouses()
-      .then((data) => {
-        setWarehouses(data);
-      })
-      .catch((err: AxiosError) => {
-        if (err.response?.status === 401) {
-          window.localStorage.removeItem("token");
-          window.location.reload();
-          window.location.href = "/login";
-        }
-      });
-  }, [reload]);
+    pathname === "/warehouse" && searchValue !== ""
+      ? searchWarehouse(searchValue).then((data) => setWarehouses(data))
+      : getWarehouses()
+          .then((data) => {
+            setWarehouses(data);
+          })
+          .catch((err: AxiosError) => {
+            if (err.response?.status === 401) {
+              window.localStorage.removeItem("token");
+              window.location.reload();
+              window.location.href = "/login";
+            }
+          });
+  }, [reload, searchValue]);
 
   return (
     <>

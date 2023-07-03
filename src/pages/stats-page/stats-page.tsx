@@ -15,18 +15,7 @@ import { ReloadContext } from "../../context/reload.context";
 import { IRole } from "../../interfaces/roles.interfaces";
 import { AxiosError, AxiosResponse } from "axios";
 import { getRoles } from "../../services/api.service";
-import {
-  ChiqimInt,
-  FoydaInt,
-  TodayTushum,
-  getAnalytics,
-  todaysChiqim,
-  todaysFoyda,
-  todaysTushum,
-} from "../../services/analytics.service";
-import accounting from "accounting";
-import moment from "moment";
-import "moment/locale/ru";
+import { getAnalytics } from "../../services/analytics.service";
 
 import {
   Chart as ChartJS,
@@ -90,7 +79,6 @@ export const StatsPage: React.FC = () => {
   useEffect(() => {
     getAnalytics(type).then((data) => {
       setChartData(data as any);
-      console.log(data);
     });
   }, [type]);
 

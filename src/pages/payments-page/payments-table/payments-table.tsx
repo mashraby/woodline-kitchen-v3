@@ -57,10 +57,10 @@ export const PaymentsTable: React.FC<IPaymentsProps> = (props) => {
                   <StyledTableCell>{index + 1}</StyledTableCell>
                   <StyledTableCell>{payment.user?.fullname}</StyledTableCell>
                   <StyledTableCell>
-                    {accounting.formatNumber(payment.balance, 0, " ") + " so'm"}
+                    {accounting.formatNumber(payment.balance, 0, " ") + " сум"}
                   </StyledTableCell>
                   <StyledTableCell>
-                    {accounting.formatNumber(payment.amount, 0, " ") + " so'm"}
+                    {accounting.formatNumber(payment.amount, 0, " ") + " сум"}
                   </StyledTableCell>
                   <StyledTableCell>{payment.date}</StyledTableCell>
                 </StyledTableRow>

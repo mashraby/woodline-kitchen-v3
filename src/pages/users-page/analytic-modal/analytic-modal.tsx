@@ -2,31 +2,63 @@ import React, { useEffect, useState } from "react";
 import {
   Modal,
   Box,
+  Grid,
   Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  Paper,
-  TableBody,
+  FormControl,
+  InputLabel,
+  Select,
+  SelectChangeEvent,
+  MenuItem,
 } from "@mui/material";
 import { IPerson } from "../../../interfaces/users.interfaces";
-import { getUserAnalytics } from "../../../services/analytics.service";
-import accounting from "accounting";
-import ChildModal from "./child-modal";
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { OneUserAnalytics } from "../../../services/api.service";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+    title: {
+      display: true,
+      text: "Кухонная аналитика",
+    },
+  },
+};
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1000,
+  width: "100%",
+  maxWidth: 1000,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   display: "flex",
   justifyContent: "space-around",
+  minHeight: 300
 };
 
 interface AnalyticModalProps {
@@ -49,16 +81,20 @@ export const AnalyticModal: React.FC<AnalyticModalProps> = (props) => {
     profit: 0,
   });
 
-  const [childOpen, setChildOpen] = useState<boolean>(false);
+  const [chartData, setChartData] = useState<any>();
+
+  const [type, setType] = useState<string>("day");
 
   useEffect(() => {
-    getUserAnalytics(id, date).then((data) => setAnUser(data));
-  }, [id]);
-  console.log(anUser);
+    OneUserAnalytics(type, id).then((data) => setChartData(data));
+  }, [id, type]);
+
+  options.plugins.title.text = `Аналитика ${
+    anUser.user?.fullname ?? "пользователь"
+  }`;
 
   return (
     <>
-      <ChildModal open={childOpen} setOpen={setChildOpen} />
       <div>
         <Modal
           open={open}
@@ -67,52 +103,54 @@ export const AnalyticModal: React.FC<AnalyticModalProps> = (props) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Box>
-              <Typography variant="h5" style={{ display: "flex", gap: "10px" }}>
-                <Box fontWeight={"bold"}>Имя:</Box> {anUser?.user?.fullname}
-              </Typography>
-              <Typography variant="h5" style={{ display: "flex", gap: "10px" }}>
-                <Box fontWeight={"bold"}>summa:</Box>{" "}
-                {accounting.formatNumber(anUser?.profit, 0, " ")} so'm
-              </Typography>
-              <Typography variant="h5" style={{ display: "flex", gap: "10px" }}>
-                <Box fontWeight={"bold"}>now summa:</Box>{" "}
-                {accounting.formatNumber(anUser?.user?.balance ?? 0, 0, " ")}{" "}
-                so'm
-              </Typography>
-            </Box>
-
-            <Box>
-              <Typography variant="h4" fontWeight={"bold"}>
-                История покупки:
-                <TableContainer component={Paper}>
-                  <Table
-                    size="small"
-                    sx={{ minWidth: 500 }}
-                    aria-label="simple table"
+            <Grid container spacing={{ xs: 1, sm: 2, md: 4, lg: 8 }}>
+              <Grid item xs={12} md={12} sm={12} lg={3}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: {
+                      xs: "12px",
+                      sm: "16px",
+                      md: "18px",
+                      lg: "20px",
+                      xlg: "22px",
+                    },
+                  }}
+                >
+                  <Typography
+                    noWrap
+                    variant="h6"
+                    fontSize={{ xs: "16px" }}
+                    fontWeight={{ xs: "bold" }}
                   >
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="left">date</TableCell>
-                        <TableCell align="left">summa</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow
-                        onClick={() => setChildOpen(true)}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                          cursor: "pointer",
-                        }}
-                      >
-                        <TableCell align="left">22 - april</TableCell>
-                        <TableCell align="left">12 000 so'm</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Typography>
-            </Box>
+                    ВАРИАНТЫ ФИЛЬТРА
+                  </Typography>
+                  <FormControl required>
+                    <InputLabel id="demo-simple-select-required-label">
+                      выбирать
+                    </InputLabel>
+                    <Select
+                      size={"small"}
+                      defaultValue="day"
+                      onChange={(e: SelectChangeEvent) => {
+                        setType(e.target.value);
+                      }}
+                      labelId="demo-simple-select-required-label"
+                      id="demo-simple-select-required"
+                      label="size *"
+                    >
+                      <MenuItem value={"day"}>Ежедневно</MenuItem>
+                      <MenuItem value={"week"}>Еженедельно</MenuItem>
+                      <MenuItem value={"month"}>Ежемесячно</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={12} sm={12} lg={9}>
+                <Bar options={options} data={chartData} />
+              </Grid>
+            </Grid>
           </Box>
         </Modal>
       </div>

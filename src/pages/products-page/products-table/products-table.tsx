@@ -77,7 +77,7 @@ export const ProductsTable: React.FC<IProductsProps> = (props) => {
                 </StyledTableCell>
                 <StyledTableCell>{product.name}</StyledTableCell>
                 <StyledTableCell>
-                  {accounting.formatNumber(product.cost, 0, " ") + " so'm"}
+                  {accounting.formatNumber(product.cost, 0, " ") + " сум"}
                 </StyledTableCell>
                 <StyledTableCell>
                   <Button
