@@ -17,7 +17,7 @@ import { StatsPage } from "./pages/stats-page/stats-page";
 import { ProductsPage } from "./pages/products-page/products-page";
 import { LunchsPage } from "./pages/lunchs-page/lunchs-page";
 import { FoodById } from "./pages/food-by-id/food-by-id";
-import { WareHousePage } from "./pages/warehouese-page/warehouse-page";
+import { WareHousePage } from "./pages/warehouse-page/warehouse-page";
 import { NotFoundPage } from "./pages/404/404";
 
 export const App: React.FC = () => {

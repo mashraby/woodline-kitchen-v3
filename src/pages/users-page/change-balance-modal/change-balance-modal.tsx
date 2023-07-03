@@ -28,14 +28,12 @@ export const BasicModal: React.FC<IOpenModalProps> = (props) => {
 
   const handleChangeBalance = (): void => {
     if (changeBalance !== undefined) {
-      postBalance(userId, changeBalance, true)
-        .then((res) => console.log(res))
-        .finally((): void => {
-          setChangeBalance(undefined);
-          setOpen(false);
-          setReload(!reload);
-          toast.success("Balance qo'shildi");
-        });
+      postBalance(userId, changeBalance, true).finally((): void => {
+        setChangeBalance(undefined);
+        setOpen(false);
+        setReload(!reload);
+        toast.success("Balance qo'shildi");
+      });
     } else {
       setEmpty(true);
     }

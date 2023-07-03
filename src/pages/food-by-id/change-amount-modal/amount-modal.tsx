@@ -37,14 +37,11 @@ export const ChangeAmountModal: React.FC<IChangeAmountProps> = (props) => {
     if (newAmount !== 0) {
       putProductAmount(changeFoodId as string, prodId, newAmount)
         .then((res: AxiosResponse) => {
-          console.log(res);
-
           if (res.status === 200) {
             toast.success("Amount muvaffaqiyatli ozgartirildi");
           }
         })
         .catch((err: AxiosError) => {
-          console.log(err);
           if (err) {
             toast.error("Amount ozgarmadi qayta urinib koring");
           }

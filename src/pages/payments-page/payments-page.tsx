@@ -52,9 +52,6 @@ export const PaymentsPage: React.FC = () => {
     setPage(page);
   };
 
-  console.log(payments);
-  console.log(page);
-
   return (
     <>
       <MiniDrawer>

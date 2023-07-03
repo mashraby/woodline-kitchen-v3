@@ -101,8 +101,6 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
       )
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
-              console.log(res);
-              
             toast.success("Food yaratildi!");
           }
         })
@@ -123,8 +121,6 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
         })
         .catch((err: AxiosError) => {
           if (err) {
-              console.log(err);
-              
             toast.error("Food yaratilmadi qayta urinib ko'ring!");
           }
         });
@@ -333,9 +329,6 @@ export const AddFoodModal: React.FC<IAddFoodProps> = (props) => {
                           sx={{ width: "250px" }}
                           renderInput={(params) => (
                             <TextField
-                              onChange={(evt) => {
-                                console.log(evt.target.value);
-                              }}
                               {...params}
                               label={`product ${i + 1}`}
                             />

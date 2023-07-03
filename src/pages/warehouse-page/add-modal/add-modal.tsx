@@ -100,13 +100,7 @@ export const AddWarehouseModal: React.FC<IAddWarehouseProps> = (props) => {
               })}
               sx={{ my: 3 }}
               renderInput={(params) => (
-                <TextField
-                  onChange={(evt) => {
-                    console.log(evt.target.value);
-                  }}
-                  {...params}
-                  label={`product`}
-                />
+                <TextField {...params} label={`product`} />
               )}
             />
 

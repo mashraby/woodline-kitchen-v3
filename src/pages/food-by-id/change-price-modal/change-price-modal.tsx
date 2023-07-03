@@ -39,16 +39,11 @@ export const ChangeFoodModal: React.FC<IChangeFoodProps> = (props) => {
     updateFoodPrice(foodId, newCost, newCookCost, newName)
       .then((data) => {
         if (data && data.status === 200) {
-          console.log(data, newName);
-
           toast.success("Food narxi o'zgartirildi");
         }
       })
       .catch((err) => {
         if (err) {
-          console.log(err);
-          console.log(foodId);
-
           toast.error("Muammo yuz berdi qayta urinib koring");
         }
       })
