@@ -214,8 +214,6 @@ export default function MiniDrawer(props: Props) {
           </ListItemButton>
         </ListItem>
 
-export const MiniDrawer: React.FC = () => {
-
         <ListItem disablePadding>
           <ListItemButton
             className={pathname === "/deedline" ? "Mui-selected" : ""}
