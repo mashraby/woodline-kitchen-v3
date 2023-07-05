@@ -234,7 +234,10 @@ interface editProductData {
 export const editProduct = (
   editData: editProductData
 ): Promise<AxiosResponse> => {
-  return instance.put("/product", editData);
+  return instance.put(`/product/${editData.id}`, {
+    name: editData.name,
+    cost: editData.cost,
+  });
 };
 
 export const addProductById = (
