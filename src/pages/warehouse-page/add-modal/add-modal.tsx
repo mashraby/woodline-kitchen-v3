@@ -31,6 +31,7 @@ export const AddWarehouseModal: React.FC<IAddWarehouseProps> = (props) => {
   const handleClose = () => setOpen(false);
   const [product, setProduct] = useState<string | undefined>("");
   const [amount, setAmount] = useState<number>(0);
+  const [cost, setCost] = useState<number>(0);
   const { reload, setReload } = useContext(ReloadContext);
 
   useEffect(() => {
@@ -43,13 +44,15 @@ export const AddWarehouseModal: React.FC<IAddWarehouseProps> = (props) => {
     if (product === undefined || (product === "" && amount === 0)) {
       toast.warning("Inputlar bo'sh bo'lmasligi kerak");
     } else {
-      postWarehouse(product, amount)
+      postWarehouse(product, amount, cost)
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
             toast.success("Successfully created");
           }
         })
         .catch((err) => {
+          console.log(err);
+          
           if (err) {
             toast.error("Qoshilmadi qayta urinib koring");
           }
@@ -106,11 +109,18 @@ export const AddWarehouseModal: React.FC<IAddWarehouseProps> = (props) => {
 
             <TextField
               onChange={(evt) => setAmount(+evt.target.value)}
-              sx={{ mb: 3 }}
               type="number"
               variant="outlined"
               label="amount"
               fullWidth
+            />
+
+            <TextField
+              sx={{ my: 3 }}
+              fullWidth
+              onChange={(e) => setCost(+e.target.value)}
+              type="number"
+              label="цена"
             />
 
             <Button

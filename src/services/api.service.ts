@@ -293,11 +293,13 @@ export const getWarehouses = (): Promise<Array<IWarehouse>> => {
 
 export const postWarehouse = (
   product: string | undefined,
-  amount: number
+  amount: number,
+  cost: number
 ): Promise<AxiosResponse> => {
   return instance.post("/warehouse", {
     product,
     amount,
+    price: cost,
   });
 };
 
