@@ -269,8 +269,7 @@ export const putProductAmount = (
   product: string,
   amount: number
 ): Promise<AxiosResponse> => {
-  return instance.put("/food/product", {
-    food,
+  return instance.put(`/food/${food}/pramount`, {
     product,
     amount,
   });
