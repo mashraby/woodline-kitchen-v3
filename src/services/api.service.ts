@@ -245,8 +245,7 @@ export const addProductById = (
   product: string,
   amount: number
 ): Promise<AxiosResponse> => {
-  return instance.post("/food/add", {
-    food,
+  return instance.post(`/food/${food}/product`, {
     product,
     amount,
   });
