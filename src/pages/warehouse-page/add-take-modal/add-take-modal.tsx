@@ -43,14 +43,15 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
   const { takeOpen, setTakeOpen, productId } = props;
   const handleClose = () => setTakeOpen(false);
   const [amount, setAmount] = useState<number>(0);
+  const [cost, setCost] = useState<number>(0);
   const [type, setType] = useState<string>("true");
   const { reload, setReload } = useContext(ReloadContext);
 
   const createTakeWarehouse = () => {
-    if (amount === 0) {
+    if (amount === 0 || cost === 0) {
       toast.warning("Input bo'sh bo'lmasligi kerak");
     } else {
-      postWarehouseTake(productId, amount, type === "true" ? true : false)
+      postWarehouseTake(productId, amount, type === "true" ? true : false, cost)
         .then((res: AxiosResponse) => {
           if (res.status === 200) {
             toast.success(
@@ -101,10 +102,19 @@ export const AddTakeModal: React.FC<IAddTakeModalProps> = (props) => {
 
             <TextField
               onChange={(evt) => setAmount(+evt.target.value)}
-              sx={{ my: 3 }}
+              sx={{ mt: 3 }}
               type="number"
               variant="outlined"
               label="кол-во"
+              fullWidth
+            />
+
+            <TextField
+              onChange={(evt) => setCost(+evt.target.value)}
+              sx={{ my: 3 }}
+              type="number"
+              variant="outlined"
+              label="цена"
               fullWidth
             />
 
