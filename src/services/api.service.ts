@@ -256,9 +256,8 @@ export const deleteProductById = (
   food: string,
   product: string
 ): Promise<AxiosResponse> => {
-  return instance.delete("/food/del", {
+  return instance.delete(`/food/${food}/product`, {
     data: {
-      food: food,
       product: product,
     },
   });
