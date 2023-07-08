@@ -71,3 +71,13 @@ export const getAnalytics = (
     .get(`/analitics/stats?type=${type}`)
     .then((res: AxiosResponse) => res.data);
 };
+
+
+export const getAnalyticsForCook = (
+  type: string
+): Promise<AxiosResponse<{ labels: string[]; datasets: any[] }>> => {
+  return instance
+    .get(`/analitics/cook?type=${type}`)
+    .then((res: AxiosResponse) => res.data);
+};
+
