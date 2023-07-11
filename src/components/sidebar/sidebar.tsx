@@ -20,6 +20,9 @@ import PeopleIcon from "@mui/icons-material/People";
 import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 // import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import { ChangeEvent } from "react";
+import { IPayment } from "../../interfaces/payments.interfacess";
+import { searchOrders, searchPayments } from "../../services/api.service";
 import PaymentIcon from "@mui/icons-material/Payment";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -30,8 +33,8 @@ import { InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled as muiStyled, alpha } from "@mui/material/styles";
 import styledC from "styled-components";
-
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
+import { IOrder } from "../../interfaces/orders.interfaces";
 
 const FlexWrapper = styledC.div`
   width: 100%;
@@ -94,9 +97,34 @@ export default function MiniDrawer(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
-  const { setSearchValue } = React.useContext(SearchContext);
+  const { searchValue, setSearchValue } = React.useContext(SearchContext);
 
   const { pathname } = useLocation();
+  // useEffect(()=>{
+  //   handleSearch()
+  // },[])
+  const [searchData, setSearchData] = React.useState({});
+
+  const handlPaymenteSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    searchPayments(event.target.value)
+      .then((payments: IPayment) => {
+        setSearchData(payments);
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
+  };
+  const handlOrdersSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    searchOrders(event.target.value)
+      .then((order: IOrder) => {
+        setSearchData(order);
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
+  };
+  // console.log(searchData)
+  //   console.log(searchValue)
 
   const drawer = (
     <div>
@@ -286,8 +314,6 @@ export default function MiniDrawer(props: Props) {
                   pathname === "/roles" ||
                   pathname === "/food-category" ||
                   pathname === "/lunchs" ||
-                  pathname === "/orders" ||
-                  pathname === "/payments" ||
                   pathname === "/deedline"
                     ? "none"
                     : "",
@@ -297,9 +323,17 @@ export default function MiniDrawer(props: Props) {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setSearchValue(e.target.value)
-                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  if (pathname === "/payments") {
+                    console.log(1);
+                    handlPaymenteSearch(e);
+                    setSearchValue(e.target.value);
+                  }
+                  if (pathname === "/orders") {
+                    console.log(4);
+                    handlOrdersSearch(e);
+                  }
+                }}
                 placeholder="Поиск…"
                 inputProps={{ "aria-label": "search" }}
               />

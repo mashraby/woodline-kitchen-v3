@@ -169,6 +169,12 @@ export const getOrders = (): Promise<Array<IOrder>> => {
   return instance.get("/order").then((res: AxiosResponse) => res.data);
 };
 
+export const searchOrders = (value: string): Promise<IOrder> => {
+  return instance
+    .get(`/order/search?fullname=${value}`)
+    .then((res: AxiosResponse) => res.data);
+};
+
 export const getPaginationOrders = (
   page: number,
   size: number
@@ -190,6 +196,13 @@ export const getPaginationPayments = (
 ): Promise<IPaymentPagination> => {
   return instance
     .get(`/payment/pagination?page=${page}&size=${size}`)
+    .then((res: AxiosResponse) => res.data);
+};
+
+
+export const searchPayments = (value: string): Promise<IPayment> => {
+  return instance
+    .get(`/payment/search?fullname=${value}`)
     .then((res: AxiosResponse) => res.data);
 };
 
@@ -322,3 +335,4 @@ export const searchWarehouse = (value: string): Promise<IWarehouse[]> => {
     .get(`/warehouse/search?product=${value}`)
     .then((res: AxiosResponse) => res.data);
 };
+
