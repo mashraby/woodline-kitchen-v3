@@ -53,6 +53,7 @@ export const AddNewProductModal: React.FC<IAddNewProductProps> = (props) => {
           }
         })
         .catch((err) => {
+          console.log(err);
           if (err) {
             toast.error("Product qo'shilmadi qayta urinib koring");
           }

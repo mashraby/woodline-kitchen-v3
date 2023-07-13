@@ -23,6 +23,7 @@ import axios, { AxiosError } from "axios";
 import { getUserAnalytics } from "../../services/analytics.service";
 import { instance } from "../../config/axios.config";
 import { SearchContext } from "../../context/search.context";
+import { useLocation } from "react-router-dom";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -39,9 +40,10 @@ export const UsersPage: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const { reload } = useContext(ReloadContext);
   const { searchValue } = useContext(SearchContext);
+  const { pathname } = useLocation();
 
   useEffect((): void => {
-    searchValue !== ""
+    searchValue !== "" && pathname === "/users"
       ? getSearchUsers(searchValue).then((data) => setUsers(data))
       : getUsersPagination(page, pageSize)
           .then((data) => {
@@ -67,39 +69,39 @@ export const UsersPage: React.FC = () => {
 
   return (
     <>
-        <MiniDrawer>
-          <FlexWrapper>
-            <Typography variant="h4" component="h2">
-              Пользователи
-            </Typography>
+      <MiniDrawer>
+        <FlexWrapper>
+          <Typography variant="h4" component="h2">
+            Пользователи
+          </Typography>
 
-            <FormControl required sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-required-label">
-                size
-              </InputLabel>
-              <Select
-                defaultValue="10"
-                onChange={(e: SelectChangeEvent) => {
-                  setPageSize(+e.target.value);
-                }}
-                labelId="demo-simple-select-required-label"
-                id="demo-simple-select-required"
-                label="size *"
-              >
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-                <MenuItem value={30}>30</MenuItem>
-              </Select>
-            </FormControl>
-          </FlexWrapper>
-          <UsersTable users={users} />
+          <FormControl required sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-required-label">size</InputLabel>
+            <Select
+              defaultValue="10"
+              onChange={(e: SelectChangeEvent) => {
+                setPageSize(+e.target.value);
+              }}
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              label="size *"
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+            </Select>
+          </FormControl>
+        </FlexWrapper>
+        <UsersTable users={users} />
+        {searchValue === "" ? (
           <Pagination
             onChange={handlePageChange}
             sx={{ mt: 5, display: "flex", justifyContent: "center" }}
             count={totalPage}
             color="primary"
           />
-        </MiniDrawer>
+        ) : null}
+      </MiniDrawer>
     </>
   );
 };

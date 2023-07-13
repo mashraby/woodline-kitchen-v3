@@ -100,31 +100,6 @@ export default function MiniDrawer(props: Props) {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
 
   const { pathname } = useLocation();
-  // useEffect(()=>{
-  //   handleSearch()
-  // },[])
-  const [searchData, setSearchData] = React.useState({});
-
-  const handlPaymenteSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    searchPayments(event.target.value)
-      .then((payments: IPayment) => {
-        setSearchData(payments);
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
-  };
-  const handlOrdersSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    searchOrders(event.target.value)
-      .then((order: IOrder) => {
-        setSearchData(order);
-      })
-      .catch((error: any) => {
-        console.error(error);
-      });
-  };
-  // console.log(searchData)
-  //   console.log(searchValue)
 
   const drawer = (
     <div>
@@ -324,15 +299,7 @@ export default function MiniDrawer(props: Props) {
               </SearchIconWrapper>
               <StyledInputBase
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  if (pathname === "/payments") {
-                    console.log(1);
-                    handlPaymenteSearch(e);
-                    setSearchValue(e.target.value);
-                  }
-                  if (pathname === "/orders") {
-                    console.log(4);
-                    handlOrdersSearch(e);
-                  }
+                  setSearchValue(e.target.value);
                 }}
                 placeholder="Поиск…"
                 inputProps={{ "aria-label": "search" }}
