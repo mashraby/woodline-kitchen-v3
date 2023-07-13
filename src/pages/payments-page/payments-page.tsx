@@ -11,10 +11,16 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { getPaginationPayments, getPayments } from "../../services/api.service";
+import {
+  getPaginationPayments,
+  getPayments,
+  searchPayments,
+} from "../../services/api.service";
 import { IPayment } from "../../interfaces/payments.interfacess";
 import { PaymentsTable } from "./payments-table/payments-table";
 import { AxiosError } from "axios";
+import { useLocation } from "react-router-dom";
+import { SearchContext } from "../../context/search.context";
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -30,20 +36,28 @@ export const PaymentsPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
 
+  const { pathname } = useLocation();
+  const { searchValue } = useContext(SearchContext);
+
   useEffect(() => {
-    getPaginationPayments(page, pageSize)
-      .then((data) => {
-        setPayments(data.payments);
-        setTotalPage(data.totalPages);
-      })
-      .catch((err: AxiosError) => {
-        if (err.response?.status === 401) {
-          window.localStorage.removeItem("token");
-          window.location.reload();
-          window.location.href = "/login";
-        }
-      });
-  }, [page, pageSize]);
+    pathname === "/payments" && searchValue !== ""
+      ? searchPayments(searchValue).then((data) => {
+          console.log(data);
+          setPayments(data);
+        })
+      : getPaginationPayments(page, pageSize)
+          .then((data) => {
+            setPayments(data.payments);
+            setTotalPage(data.totalPages);
+          })
+          .catch((err: AxiosError) => {
+            if (err.response?.status === 401) {
+              window.localStorage.removeItem("token");
+              window.location.reload();
+              window.location.href = "/login";
+            }
+          });
+  }, [page, pageSize, searchValue]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -78,12 +92,14 @@ export const PaymentsPage: React.FC = () => {
           </FormControl>
         </FlexWrapper>
         <PaymentsTable payments={payments} size={pageSize} page={page} />
-        <Pagination
-          onChange={handlePageChange}
-          sx={{ mt: 5, display: "flex", justifyContent: "center" }}
-          count={totalPage}
-          color="primary"
-        />
+        {searchValue === "" ? (
+          <Pagination
+            onChange={handlePageChange}
+            sx={{ mt: 5, display: "flex", justifyContent: "center" }}
+            count={totalPage}
+            color="primary"
+          />
+        ) : null}
       </MiniDrawer>
     </>
   );

@@ -196,6 +196,8 @@ export const UsersTable: React.FC<UsersTableProps> = (props) => {
     setAnalyticOpen(true);
   };
 
+  
+
   return (
     <>
       <BasicModal

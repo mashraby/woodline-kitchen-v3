@@ -169,7 +169,7 @@ export const getOrders = (): Promise<Array<IOrder>> => {
   return instance.get("/order").then((res: AxiosResponse) => res.data);
 };
 
-export const searchOrders = (value: string): Promise<IOrder> => {
+export const searchOrders = (value: string): Promise<IOrder[]> => {
   return instance
     .get(`/order/search?fullname=${value}`)
     .then((res: AxiosResponse) => res.data);
@@ -199,8 +199,7 @@ export const getPaginationPayments = (
     .then((res: AxiosResponse) => res.data);
 };
 
-
-export const searchPayments = (value: string): Promise<IPayment> => {
+export const searchPayments = (value: string): Promise<IPayment[]> => {
   return instance
     .get(`/payment/search?fullname=${value}`)
     .then((res: AxiosResponse) => res.data);
@@ -319,14 +318,14 @@ export const postWarehouse = (
 export const postWarehouseTake = (
   storedProduct: string,
   amount: number,
-  type: boolean, 
+  type: boolean,
   price: number
 ): Promise<AxiosResponse> => {
   return instance.post("/warehouse/add-take", {
     storedProduct,
     amount,
     type,
-    price
+    price,
   });
 };
 
@@ -335,4 +334,3 @@ export const searchWarehouse = (value: string): Promise<IWarehouse[]> => {
     .get(`/warehouse/search?product=${value}`)
     .then((res: AxiosResponse) => res.data);
 };
-

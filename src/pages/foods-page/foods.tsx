@@ -29,7 +29,6 @@ export const FoodsPage: React.FC = () => {
   const { pathname } = useLocation();
   const { searchValue } = useContext(SearchContext);
 
-
   useEffect((): void => {
     pathname === "/foods" && searchValue !== ""
       ? searchFood(searchValue).then((data) => {
