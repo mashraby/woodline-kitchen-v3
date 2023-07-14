@@ -27,7 +27,7 @@ export const ProductsPage: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    pathname === "/products" && searchValue !== ""
+    pathname === "/products" && searchValue.trim() !== ""
       ? searchProduct(searchValue).then((data) => setProducts(data))
       : getProducts()
           .then((data) => {

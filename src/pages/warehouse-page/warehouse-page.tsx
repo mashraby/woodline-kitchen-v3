@@ -29,7 +29,7 @@ export const WareHousePage: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    pathname === "/warehouse" && searchValue !== ""
+    pathname === "/warehouse" && searchValue.trim() !== ""
       ? searchWarehouse(searchValue).then((data) => setWarehouses(data))
       : getWarehouses()
           .then((data) => {
