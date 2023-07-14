@@ -40,7 +40,7 @@ export const PaymentsPage: React.FC = () => {
   const { searchValue } = useContext(SearchContext);
 
   useEffect(() => {
-    pathname === "/payments" && searchValue !== ""
+    pathname === "/payments" && searchValue.trim() !== ""
       ? searchPayments(searchValue).then((data) => {
           console.log(data);
           setPayments(data);

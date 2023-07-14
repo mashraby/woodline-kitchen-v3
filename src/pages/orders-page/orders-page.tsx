@@ -36,7 +36,7 @@ export const OrdersPage: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    pathname === "/orders" && searchValue !== ""
+    pathname === "/orders" && searchValue.trim() !== ""
       ? searchOrders(searchValue).then((data) => {
           console.log(data);
 

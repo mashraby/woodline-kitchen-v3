@@ -30,7 +30,7 @@ export const FoodsPage: React.FC = () => {
   const { searchValue } = useContext(SearchContext);
 
   useEffect((): void => {
-    pathname === "/foods" && searchValue !== ""
+    pathname === "/foods" && searchValue.trim() !== ""
       ? searchFood(searchValue).then((data) => {
           setFoods(data);
         })
